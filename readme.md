@@ -1,6 +1,7 @@
 # libmath
+Provides various mathematical utilities like matrix, vector and complex operations. Also has 2d geometry logic and randomization. 
 
-# dependency
+# module
 * exports com.nullpointerworks.math
 * exports com.nullpointerworks.math.complex
 * exports com.nullpointerworks.math.geometry
@@ -11,5 +12,5 @@
 * exports com.nullpointerworks.math.random.selector
 * exports com.nullpointerworks.math.vector
 
-### MATH v1.0
+### math v1.0
 * npw independent
