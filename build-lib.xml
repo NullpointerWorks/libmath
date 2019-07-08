@@ -14,6 +14,8 @@
 	
 	<target name="com" depends="compile">
 		<jar destfile="${bin.dir}/libnpw-math-${math-version}.jar">
+	        <fileset dir="bin/" includes="module-info.class" />
+	        <fileset dir="src/" includes="module-info.java" />
 	        <fileset dir="bin/" includes="com/nullpointerworks/math/**/*.class" />
 	        <fileset dir="bin/" includes="exp/nullpointerworks/math/**/*.class" />
 	        <fileset dir="src/" includes="com/nullpointerworks/math/**/*.java" />

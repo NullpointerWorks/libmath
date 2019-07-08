@@ -1,4 +1,7 @@
-module libmath
+/**
+ * @since 1.0
+ */
+module com.nullpointerworks.math
 {
 	exports com.nullpointerworks.math;
 	exports com.nullpointerworks.math.complex;
