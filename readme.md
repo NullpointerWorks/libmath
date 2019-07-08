@@ -12,5 +12,5 @@ Provides various mathematical utilities like matrix, vector and complex operatio
 * exports com.nullpointerworks.math.random.selector
 * exports com.nullpointerworks.math.vector
 
-### math v1.0
+# math v1.0
 * npw independent
