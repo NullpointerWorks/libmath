@@ -2,9 +2,6 @@ package com.nullpointerworks.math.matrix;
 
 public class Hadamard 
 {
-	
-	// =====================================================
-	
 	/**
 	 * add two matrices element-wise
 	 */
@@ -12,14 +9,17 @@ public class Hadamard
 	{
 		int r = m1.length;
 		int c = m1[0].length;
-		
-		float[][] res = new float[r][c];
+		float[][] res = new float[r][];
 		for (int y=0;y<r;y++)
 		{
+			float[] m1y = m1[y];
+			float[] m2y = m2[y];
+			float[] rsy = new float[c];
 			for (int x=0;x<c;x++)
 			{
-				res[y][x] = m1[y][x] + m2[y][x];
+				rsy[x] = m1y[x] + m2y[x];
 			}
+			res[y] = rsy;
 		}
 		return res;
 	}
@@ -31,14 +31,17 @@ public class Hadamard
 	{
 		int r = m1.length;
 		int c = m1[0].length;
-		
-		float[][] res = new float[r][c];
+		float[][] res = new float[r][];
 		for (int y=0;y<r;y++)
 		{
+			float[] m1y = m1[y];
+			float[] m2y = m2[y];
+			float[] rsy = new float[c];
 			for (int x=0;x<c;x++)
 			{
-				res[y][x] = m1[y][x] - m2[y][x];
+				rsy[x] = m1y[x] - m2y[x];
 			}
+			res[y] = rsy;
 		}
 		return res;
 	}
@@ -50,14 +53,17 @@ public class Hadamard
 	{
 		int r = m1.length;
 		int c = m1[0].length;
-		
-		float[][] res = new float[r][c];
+		float[][] res = new float[r][];
 		for (int y=0;y<r;y++)
 		{
+			float[] m1y = m1[y];
+			float[] m2y = m2[y];
+			float[] rsy = new float[c];
 			for (int x=0;x<c;x++)
 			{
-				res[y][x] = m1[y][x] * m2[y][x];
+				rsy[x] = m1y[x] * m2y[x];
 			}
+			res[y] = rsy;
 		}
 		return res;
 	}

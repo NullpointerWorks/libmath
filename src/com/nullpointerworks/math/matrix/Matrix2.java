@@ -1,7 +1,5 @@
 package com.nullpointerworks.math.matrix;
 
-import com.nullpointerworks.math.FastMath;
-
 public class Matrix2 
 {
 	/**
@@ -9,8 +7,7 @@ public class Matrix2
 	 */
 	public static float[][] zero()
 	{
-		return new float[][]{{0f,0f},
-							 {0f,0f}};
+		return new float[][]{{0f,0f}, {0f,0f}};
 	}
 	
 	/**
@@ -18,84 +15,7 @@ public class Matrix2
 	 */
 	public static float[][] identity()
 	{
-		return new float[][]{{1f,0f},
-							 {0f,1f}};
-	}
-	
-	/**
-	 * creates a scalar matrix
-	 */
-	public static float[][] scale(float sx,float sy)
-	{
-		return new float[][]{{sx,0f},
-							 {0f,sy}};
-	}
-	public static float[][] scale(float[] s)
-	{
-		return new float[][]{{s[0],0f},
-							 {0f,s[1]}};
-	}
-	
-	public static float[][] shear(float angle, boolean hor)
-	{
-		if (hor)
-		{
-			float tan = -1f * (float)(Math.tan(angle*0.5f));
-			return new float[][]{{ 1f,-tan}, 
-				 				 { 0f, 1f}};
-		}
-		float sin = (float) FastMath.sin(angle);
-		return new float[][]{{ 1f, 0f}, 
-							 {sin, 1f}};
-	}
-	
-	/**
-	 * get the rotation matrix from the given rotations
-	 */
-	public static float[][] rotation(float angle)
-	{
-		float cos = (float) FastMath.cos(angle);
-		float sin = (float) FastMath.sin(angle);
-		return new float[][]{{cos, -sin},
-							 {sin, cos}};
-	}
-	
-	/**
-	 * get the row of a matrix by a given index.
-	 * returns a float[]
-	 */
-	public static float[] row(float[][] matrix,int i)
-	{
-		return matrix[i];
-	}
-
-	/**
-	 * load a float[] into a row of the given matrix
-	 */
-	public static float[][] setRow(float[][] matrix, float[] arr, int i)
-	{
-		matrix[i][0] = arr[0];
-		matrix[i][1] = arr[1];
-		return matrix;
-	}
-	
-	/**
-	 * get the column of a matrix by the given index
-	 */
-	public static float[] column(float[][] matrix, int i)
-	{
-		return new float[] {matrix[0][i],
-							matrix[1][i]};
-	}
-	
-	/**
-	 * load a float[] into a column of the given matrix
-	 */
-	public static float[][] setColumn(float[][] matrix, float[] arr, int i)
-	{
-		matrix[0][i] = arr[0];
-		matrix[1][i] = arr[1];
-		return matrix;
+		return new float[][]{{1f,0f}, {0f,1f}};
 	}
 	
 	/**
@@ -103,10 +23,9 @@ public class Matrix2
 	 */
 	public static float[][] transpose(float[][] mat)
 	{
-		float[][] tpMat = zero();
-		setColumn(tpMat, mat[0] ,0);
-		setColumn(tpMat, mat[1] ,1);
-		return tpMat;
+		float[] r0 = {mat[0][0],mat[1][0]};
+		float[] r1 = {mat[0][1],mat[1][1]};
+		return new float[][] {r0,r1};
 	}
 	
 	/**
@@ -115,11 +34,13 @@ public class Matrix2
 	 */
 	public static float[][] mul(float[][] m, float f)
 	{
-		float[][] matrix = new float[2][2];
-		for (int y=0;y<2;y++)
-		for (int x=0;x<2;x++)
-			matrix[y][x] = m[y][x]*f;
-		return matrix;
+		float[] r0 = {0f,0f};
+		float[] r1 = {0f,0f};
+		r0[0] = m[0][0]*f;
+		r0[1] = m[0][1]*f;
+		r1[0] = m[1][0]*f;
+		r1[1] = m[1][1]*f;
+		return new float[][] {r0,r1};
 	}
 	
 	/**
@@ -128,16 +49,17 @@ public class Matrix2
 	 */
 	public static float[][] mul(float[][] m1, float[][] m2)
 	{
-		float[][] res = new float[2][2];
-		for (int y=0;y<2;y++)
-		{
-			for (int x=0;x<2;x++)
-			{
-				float d = dot( m1[y] , column(m2,x) );
-				res[y][x] = d;
-			}
-		}
-		return res;
+		float[] col0 = column(m2,0);
+		float[] col1 = column(m2,1);
+		float[] row0 = m1[0];
+		float[] row1 = m1[1];
+		float[] res0 = {0f,0f};
+		float[] res1 = {0f,0f};
+		res0[0] = dot( row0 , col0 );
+		res0[1] = dot( row0 , col1 );
+		res1[0] = dot( row1 , col0 );
+		res1[1] = dot( row1 , col1 );
+		return new float[][] {res0, res1};
 	}
 	
 	/**
@@ -184,38 +106,18 @@ public class Matrix2
 	/**
 	 * returns the inverse matrix of the given matrix
 	 */
-	public static float[][] inverse(float[][] a)
+	public static float[][] inverse(float[][] m)
 	{
-	    float inv_det = 1f / det(a);
-	    float[][] r = adjugate(a);
-	    return Matrix2.mul(r,inv_det);
-	}
-	
-	/**
-	 * mass multiply an array of float[2] arrays with the given matrix.
-	 * useful for applying a matrix to many vertices in one pass
-	 */
-	public static float[][] transform(float[][] m, float[][] v)
-	{
-		int l = v.length;
-		float[][] res = new float[l][2];
-		for (int i=0; i<l;i++)
-		{
-			res[i][0] = dot(m[0], v[i]);
-			res[i][1] = dot(m[1], v[i]);
-		}
-		return res;
-	}
-	
-	/**
-	 * multiply a float[2] array with the given matrix.
-	 */
-	public static float[] transform(float[][] m, float[] v)
-	{
-		float[] res = new float[2];
-		res[0] = dot(m[0], v);
-		res[1] = dot(m[1], v);
-		return res;
+		float a,b,c,d;
+		a = m[0][0];
+		b = m[0][1];
+		c = m[1][0];
+		d = m[1][1];
+		float inv_det = 1f / ((a*d)-(b*c));
+		
+		float[][] r = new float[][]{{d*inv_det, -b*inv_det},
+									{-c*inv_det, a*inv_det}};
+		return r;
 	}
 	
 	/**
@@ -228,26 +130,11 @@ public class Matrix2
 	}
 	
 	/**
-	 * print a matrix into the console
+	 * get the column of a matrix by the given index
 	 */
-	public static void print(float[][] matrix, int digits)
+	private static float[] column(float[][] matrix, int i)
 	{
-		System.out.println("printing matrix:");
-		float[] r1 = matrix[0];
-		float[] r2 = matrix[1];
-		System.out.println("|"+ toString(r1[0], digits) +" "+ toString(r1[1], digits)+" |");
-		System.out.println("|"+ toString(r2[0], digits) +" "+ toString(r2[1], digits)+" |");
+		return new float[] {matrix[0][i], matrix[1][i]};
 	}
 	
-	/**
-	 * print a matrix into the console
-	 */
-	public static void print(float[][] matrix)
-	{
-		print(matrix, 6);
-	}
-	private static String toString(float v, int l)
-	{
-		return String.format("%" + l + "." + l + "s", Float.toString(v));
-	}
 }

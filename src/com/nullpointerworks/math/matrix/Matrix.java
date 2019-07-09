@@ -4,7 +4,6 @@ import com.nullpointerworks.math.Function;
 
 public class Matrix 
 {
-
 	/**
 	 * add value to the entire matrix
 	 */
@@ -13,12 +12,15 @@ public class Matrix
 		int rows = m.length;
 		int cols = m[0].length;
 		
-		float[][] res = new float[rows][cols];
+		float[][] res = new float[rows][];
 		for (int y=0; y<rows; y++)
 		{
-			float[] r = res[y];
+			float[] r = new float[cols];
 			for (int x=0; x<cols; x++)
+			{
 				r[x] = r[x] + n;
+			}
+			res[y] = r;
 		}
 		return res;
 	}
@@ -35,14 +37,17 @@ public class Matrix
 		// if the columns and rows don't match, return an empty matrix
 		if (m1[0].length != m2.length) return new float[0][0];
 		
-		float[][] res = new float[rows][cols];
+		float[][] res = new float[rows][];
 		for (int r=0;r<rows;r++)
 		{
+			float[] col = new float[cols];
+			float[] m1r = m1[r];
 			for (int c=0;c<cols;c++)
 			{
-				float d = dot( row(m1,r) , col(m2,c) );
-				res[r][c] = d;
+				float d = dot( m1r , col(m2,c) );
+				col[c] = d;
 			}
+			res[r]=col;
 		}
 		return res;
 	}
@@ -134,16 +139,16 @@ public class Matrix
 	{
 		int rows = m.length;
 		int cols = m[0].length;
-		float[][] res = new float[rows][cols];
+		float[][] res = new float[rows][];
 		for (int y=0; y<rows; y++)
 		{
-			float[] r = res[y];
-			float[] mm = m[y];
-			
+			float[] my = m[y];
+			float[] col = new float[cols];
 			for (int x=0; x<cols; x++)
 			{
-				r[x] = s.calculate(mm[x]);
+				col[x] = s.calculate(my[x]);
 			}
+			res[y] = col;
 		}
 		return res;
 	}
@@ -155,16 +160,16 @@ public class Matrix
 	{
 		int rows = m.length;
 		int cols = m[0].length;
-		float[][] res = new float[rows][cols];
+		float[][] res = new float[rows][];
 		for (int y=0; y<rows; y++)
 		{
-			float[] r = res[y];
-			float[] mm = m[y];
-			
+			float[] my = m[y];
+			float[] col = new float[cols];
 			for (int x=0; x<cols; x++)
 			{
-				r[x] = value * mm[x];
+				col[x] = value * my[x];
 			}
+			res[y] = col;
 		}
 		return res;
 	}
@@ -176,19 +181,15 @@ public class Matrix
 	{
 		int rows = matrix.length;
 		int cols = matrix[0].length;
-		
 		float[][] res = new float[cols][rows];
-		
 		for (int r=0; r<rows; r++)
 		{
 			float[] row = matrix[r];
-			
 			for (int c=0; c<cols; c++)
 			{
 				res[c][r] = row[c];
 			}
 		}
-		
 		return res;
 	}
 	
@@ -199,19 +200,17 @@ public class Matrix
 	{
 		int rows = matrix.length;
 		int cols = matrix[0].length;
-		
-		float[][] res = new float[rows][cols];
-		
+		float[][] res = new float[rows][];
 		for (int r=0; r<rows; r++)
 		{
 			float[] row = matrix[r];
-			
+			float[] col = new float[cols];
 			for (int c=0; c<cols; c++)
 			{
-				res[r][c] = row[c];
+				col[c] = row[c];
 			}
+			res[r] = col;
 		}
-		
 		return res;
 	}
 
@@ -250,12 +249,12 @@ public class Matrix
 
 	// ========================================
 	
-	public static String toString(float v, int l)
+	private static String toString(float v, int l)
 	{
 		return String.format("%" + l + "." + l + "s", Float.toString(v));
 	}
 	
-	public static float dot(float[] a, float[] b)
+	private static float dot(float[] a, float[] b)
 	{
 		float r=0f;
 		for (int i=0,l=a.length; i<l; i++) 
@@ -263,7 +262,7 @@ public class Matrix
 		return r;
 	}
 	
-	public static float[] col(float[][] matrix, int i)
+	private static float[] col(float[][] matrix, int i)
 	{
 		int l = matrix.length;
 		float[] r = new float[l];
@@ -272,7 +271,7 @@ public class Matrix
 		return r;
 	}
 	
-	public static float[] row(float[][] matrix,int i)
+	private static float[] row(float[][] matrix,int i)
 	{
 		return matrix[i];
 	}
