@@ -1,7 +1,7 @@
 /**
- * @since 1.0
+ * @version 1.0.3
  */
-module com.nullpointerworks.math
+module libnpw.math
 {
 	exports com.nullpointerworks.math;
 	exports com.nullpointerworks.math.complex;
