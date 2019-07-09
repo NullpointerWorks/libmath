@@ -1,11 +1,14 @@
 package com.nullpointerworks.math.matrix;
 
-import com.nullpointerworks.math.FastMath;
-
+/**
+ * Provides mathematical operations for 3x3 matrices. 
+ * @author Michiel Drost - nullpointerworks
+ */
 public class Matrix3 
 {
 	/**
-	 * creates a new null matrix
+	 * Creates a 3-by-3 matrix zero matrix.
+	 * @return a 3-by-3 matrix filled with zeros
 	 */
 	public static float[][] zero()
 	{
@@ -15,7 +18,8 @@ public class Matrix3
 	}
 	
 	/**
-	 * creates a new identity matrix
+	 * Creates a 3-by-3 identity matrix.
+	 * @return a 3-by-3 identity matrix
 	 */
 	public static float[][] identity()
 	{
@@ -25,165 +29,23 @@ public class Matrix3
 	}
 	
 	/**
-	 * creates a translation matrix
-	 */
-	public static float[][] translate(float x,float y,float z)
-	{
-		return new float[][]{{1f,0f,x},
-							 {0f,1f,y},
-							 {0f,0f,z}};
-	}
-	public static float[][] translate(float[] v)
-	{
-		return new float[][]{{1f,0f,v[0]},
-							 {0f,1f,v[1]},
-							 {0f,0f,v[2]}};
-	}
-
-	/**
-	 * creates a scalar matrix
-	 */
-	public static float[][] scale(float sx,float sy,float sz)
-	{
-		return new float[][]{{sx,0f,0f},
-							 {0f,sy,0f},
-							 {0f,0f,sz}};
-	}
-	public static float[][] scale(float[] s)
-	{
-		return new float[][]{{s[0],0f,0f},
-							 {0f,s[1],0f},
-							 {0f,0f,s[2]}};
-	}
-	
-	/**
-	 * get the rotation matrix from the given rotations
-	 */
-	public static float[][] rotateX(float yaw)
-	{
-		float cos = (float) FastMath.cos(yaw);
-		float sin = (float) FastMath.sin(yaw);
-		return new float[][]{{ 1f, 0f,  0f},
-						 	 { 0f,cos,-sin},
-						 	 { 0f,sin, cos}};
-	}
-	
-	/**
-	 * get the rotation matrix from the given rotations
-	 */
-	public static float[][] rotateY(float pitch)
-	{
-		float cos = (float) FastMath.cos(pitch);
-		float sin = (float) FastMath.sin(pitch);
-		return new float[][]{{ cos, 0f,sin},
-							 {  0f, 1f, 0f},
-							 {-sin, 0f,cos}};
-	}
-	
-	/**
-	 * get the rotation matrix from the given rotations
-	 */
-	public static float[][] rotateZ(float roll)
-	{
-		float cos = (float) FastMath.cos(roll);
-		float sin = (float) FastMath.sin(roll);
-		float[][] mRoll = new float[][]{{cos,-sin, 0f},
-										{sin, cos, 0f},
-										{ 0f,  0f, 1f}};
-		return mRoll;
-	}
-	
-	/**
-	 * get the rotation matrix from the given rotations
-	 */
-	public static float[][] rotation(float roll, float pitch, float yaw)
-	{
-		float cos = (float) FastMath.cos(roll);
-		float sin = (float) FastMath.sin(roll);
-		float[][] mRoll = new float[][]{{cos,-sin, 0f},
-										{sin, cos, 0f},
-										{ 0f,  0f, 1f}};
-		
-		cos = (float) FastMath.cos(yaw);
-		sin = (float) FastMath.sin(yaw);
-		float[][] mPitch = new float[][]{{ cos, 0f,sin},
-										 {  0f, 1f, 0f},
-										 {-sin, 0f,cos}};
-		
-		cos = (float) FastMath.cos(pitch);
-		sin = (float) FastMath.sin(pitch);
-		float[][] mYaw = new float[][]{ { 1f, 0f,  0f},
-									 	{ 0f,cos,-sin},
-									 	{ 0f,sin, cos}};
-		
-		return mul(mYaw, mPitch, mRoll);
-	}
-	
-	/**
-	 * creates a 2d screen-space correction matrix
-	 */
-	public static float[][] screenSpace(float width, float height)
-	{
-		float hw = width*0.5f;
-		float hh = height*0.5f;
-		return new float[][]{{hw, 0f,hw-0.5f},
-							 {0f,-hh,hh-0.5f},
-							 {0f, 0f,     1f}};
-	}
-	
-	// ================================================================
-	
-	/**
-	 * get the row of a matrix by a given index.
-	 * returns a float[]
-	 */
-	public static float[] row(float[][] matrix,int i)
-	{
-		return matrix[i];
-	}
-
-	/**
-	 * load a float[] into a row of the given matrix
-	 */
-	public static float[][] setRow(float[][] matrix, float[] arr, int i)
-	{
-		matrix[i][0] = arr[0];
-		matrix[i][1] = arr[1];
-		matrix[i][2] = arr[2];
-		return matrix;
-	}
-	
-	/**
-	 * get the column of a matrix by the given index
-	 */
-	public static float[] column(float[][] matrix, int i)
-	{
-		return new float[] {matrix[0][i],
-							matrix[1][i],
-							matrix[2][i]};
-	}
-	
-	/**
-	 * load a float[] into a column of the given matrix
-	 */
-	public static float[][] setColumn(float[][] matrix, float[] arr, int i)
-	{
-		matrix[0][i] = arr[0];
-		matrix[1][i] = arr[1];
-		matrix[2][i] = arr[2];
-		return matrix;
-	}
-	
-	/**
 	 * returns the transpose of the given matrix.
 	 */
 	public static float[][] transpose(float[][] mat)
 	{
-		float[][] tpMat = zero();
-		setColumn(tpMat, mat[0] ,0);
-		setColumn(tpMat, mat[1] ,1);
-		setColumn(tpMat, mat[2] ,2);
-		return tpMat;
+		float[] r0 = {mat[0][0],0f,0f};
+		float[] r1 = {0f,mat[1][1],0f};
+		float[] r2 = {0f,0f,mat[2][2]};
+		
+		r0[1] = mat[1][0];
+		r1[0] = mat[0][1];
+		
+		r0[2] = mat[2][0];
+		r2[0] = mat[0][2];
+		
+		r1[2] = mat[2][1];
+		r2[1] = mat[1][2];
+		return new float[][] {r0,r1,r2};
 	}
 	
 	/**
@@ -192,11 +54,22 @@ public class Matrix3
 	 */
 	public static float[][] mul(float[][] m, float f)
 	{
-		float[][] matrix = zero();
-		for (int y=0;y<3;y++)
-		for (int x=0;x<3;x++)
-			matrix[y][x] = m[y][x]*f;
-		return matrix;
+		float[] r0 = {0f,0f,0f};
+		float[] r1 = {0f,0f,0f};
+		float[] r2 = {0f,0f,0f};
+		
+		r0[0] = m[0][0]*f;
+		r0[1] = m[0][1]*f;
+		r0[2] = m[0][2]*f;
+
+		r1[0] = m[1][0]*f;
+		r1[1] = m[1][1]*f;
+		r1[2] = m[1][2]*f;
+
+		r2[0] = m[2][0]*f;
+		r2[1] = m[2][1]*f;
+		r2[2] = m[2][2]*f;
+		return new float[][] {r0,r1,r2};
 	}
 	
 	/**
@@ -205,16 +78,30 @@ public class Matrix3
 	 */
 	public static float[][] mul(float[][] m1, float[][] m2)
 	{
-		float[][] res = zero();
-		for (int y=0;y<3;y++)
-		{
-			for (int x=0;x<3;x++)
-			{
-				float d = dot( m1[y] , column(m2,x) );
-				res[y][x] = d;
-			}
-		}
-		return res;
+		float[] col0 = column(m2,0);
+		float[] col1 = column(m2,1);
+		float[] col2 = column(m2,2);
+
+		float[] row0 = m1[0];
+		float[] row1 = m1[1];
+		float[] row2 = m1[2];
+		
+		float[] res0 = {0f,0f,0f};
+		float[] res1 = {0f,0f,0f};
+		float[] res2 = {0f,0f,0f};
+		
+		res0[0] = dot( row0 , col0 );
+		res0[1] = dot( row0 , col1 );
+		res0[2] = dot( row0 , col2 );
+		
+		res1[0] = dot( row1 , col0 );
+		res1[1] = dot( row1 , col1 );
+		res1[2] = dot( row1 , col2 );
+		
+		res2[0] = dot( row2 , col0 );
+		res2[1] = dot( row2 , col1 );
+		res2[2] = dot( row2 , col2 );
+		return new float[][] {res0,res1,res2};
 	}
 	
 	/**
@@ -236,12 +123,9 @@ public class Matrix3
 	public static float det(float[][] m)
 	{
 		float det = 0f;
-		for(int i=0;i<3;i++)
-		{
-	    	int i1 = (i+1)%3;
-	    	int i2 = (i+2)%3;
-	        det = det + ( m[0][i] * (m[1][i1] * m[2][i2] - m[1][i2] * m[2][i1]) );
-		}
+        det = det + ( m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) );
+        det = det + ( m[0][1] * (m[1][2] * m[2][0] - m[1][0] * m[2][2]) );
+        det = det + ( m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]) );
 		return det;
 	}
 	
@@ -251,59 +135,50 @@ public class Matrix3
 	 */
 	public static float[][] adjugate(float[][] a)
 	{
-	    float[][] r = zero();
-	    for(int i=0,j;i<3;i++)
-	    {
-	    	int i1 = (i+1)%3;
-	    	int i2 = (i+2)%3;
-	        for(j=0;j<3;j++)
-	        {
-		    	int j1 = (j+1)%3;
-		    	int j2 = (j+2)%3;
-	        	float ad = (a[i1][j1]*a[i2][j2]) - (a[i1][j2]*a[i2][j1]);
-	        	r[j][i] = ad;
-	        }
-	    }
-	    return r;
+		float[] r0 = {0f,0f,0f};
+		float[] r1 = {0f,0f,0f};
+		float[] r2 = {0f,0f,0f};
+		float[] a1 = a[1];
+		float[] a2 = a[2];
+		float[] a0 = a[0];
+		r0[0] = (a1[1]*a2[2]) - (a1[1]*a2[2]);
+		r1[0] = (a1[2]*a2[0]) - (a1[2]*a2[0]);
+		r2[0] = (a1[0]*a2[0]) - (a1[1]*a2[1]);
+		r0[1] = (a2[1]*a0[2]) - (a2[1]*a0[2]);
+		r1[1] = (a2[2]*a0[0]) - (a2[2]*a0[0]);
+		r2[1] = (a2[0]*a0[0]) - (a2[1]*a0[1]);
+		r0[2] = (a0[1]*a1[2]) - (a0[1]*a1[2]);
+		r1[2] = (a0[2]*a1[0]) - (a0[2]*a1[0]);
+		r2[2] = (a0[0]*a1[0]) - (a0[1]*a1[1]);
+		return new float[][] {r0,r1,r2};
 	}
 	
 	/**
 	 * returns the inverse matrix of the given matrix
 	 */
-	public static float[][] inverse(float[][] a)
+	public static float[][] inverse(float[][] m)
 	{
-	    float inv_det = 1f / det(a);
-	    float[][] r = adjugate(a);
-	    return mul(r,inv_det);
-	}
-	
-	/**
-	 * mass multiply an array of float[3] arrays with the given matrix.
-	 * useful for applying a matrix to many vertices in one pass
-	 */
-	public static float[][] transform(float[][] m, float[][] v)
-	{
-		int l = v.length;
-		float[][] res = new float[l][3];
-		for (int i=0; i<l;i++)
-		{
-			res[i][0] = dot(m[0], v[i]);
-			res[i][1] = dot(m[1], v[i]);
-			res[i][2] = dot(m[2], v[i]);
-		}
-		return res;
-	}
-	
-	/**
-	 * multiply a float[3] array with the given matrix.
-	 */
-	public static float[] transform(float[][] m, float[] v)
-	{
-		float[] res = new float[3];
-		res[0] = dot(m[0], v);
-		res[1] = dot(m[1], v);
-		res[2] = dot(m[2], v);
-		return res;
+		float det = 0f;
+        det = det + ( m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) );
+        det = det + ( m[0][1] * (m[1][2] * m[2][0] - m[1][0] * m[2][2]) );
+        det = det + ( m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]) );
+        det = 1f / det;
+        float[] r0 = {0f,0f,0f};
+		float[] r1 = {0f,0f,0f};
+		float[] r2 = {0f,0f,0f};
+		float[] a1 = m[1];
+		float[] a2 = m[2];
+		float[] a0 = m[0];
+		r0[0] = ((a1[1]*a2[2]) - (a1[1]*a2[2]))*det;
+		r1[0] = ((a1[2]*a2[0]) - (a1[2]*a2[0]))*det;
+		r2[0] = ((a1[0]*a2[0]) - (a1[1]*a2[1]))*det;
+		r0[1] = ((a2[1]*a0[2]) - (a2[1]*a0[2]))*det;
+		r1[1] = ((a2[2]*a0[0]) - (a2[2]*a0[0]))*det;
+		r2[1] = ((a2[0]*a0[0]) - (a2[1]*a0[1]))*det;
+		r0[2] = ((a0[1]*a1[2]) - (a0[1]*a1[2]))*det;
+		r1[2] = ((a0[2]*a1[0]) - (a0[2]*a1[0]))*det;
+		r2[2] = ((a0[0]*a1[0]) - (a0[1]*a1[1]))*det;
+		return new float[][] {r0,r1,r2};
 	}
 	
 	/**
@@ -316,28 +191,12 @@ public class Matrix3
 	}
 	
 	/**
-	 * print a matrix into the console
+	 * get the column of a matrix by the given index
 	 */
-	public static void print(float[][] matrix, int digits)
+	private static float[] column(float[][] matrix, int i)
 	{
-		System.out.println("printing matrix:");
-		float[] r1 = matrix[0];
-		float[] r2 = matrix[1];
-		float[] r3 = matrix[2];
-		System.out.println("|"+ toString(r1[0], digits) +" "+ toString(r1[1], digits)+" "+ toString(r1[2], digits)+" |");
-		System.out.println("|"+ toString(r2[0], digits) +" "+ toString(r2[1], digits)+" "+ toString(r2[2], digits)+" |");
-		System.out.println("|"+ toString(r3[0], digits) +" "+ toString(r3[1], digits)+" "+ toString(r3[2], digits)+" |");
-	}
-	
-	/**
-	 * print a matrix into the console
-	 */
-	public static void print(float[][] matrix)
-	{
-		print(matrix, 6);
-	}
-	private static String toString(float v, int l)
-	{
-		return String.format("%" + l + "." + l + "s", Float.toString(v));
+		return new float[] {matrix[0][i],
+							matrix[1][i],
+							matrix[2][i]};
 	}
 }
