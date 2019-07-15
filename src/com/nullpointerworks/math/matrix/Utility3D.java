@@ -40,6 +40,24 @@ public class Utility3D
 		res[3] = Vector4.dot(m[3], v);
 		return res;
 	}
+
+	/**
+	 * Special screenspace transform that handles x,y and z elements, but not w
+	 */
+	public static final void transform3(float[][] m, float[] v)
+	{
+		v[0] = dot3(m[0], v);
+		v[1] = dot3(m[1], v);
+		v[2] = dot3(m[2], v);
+	}
+	
+	/**
+	 * Special dot product that ignores the vector's W element
+	 */
+	private static float dot3(float[] a, float[] b)
+	{
+		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
+	}
 	
 	/**
 	 * Creates a translation matrix
@@ -85,19 +103,11 @@ public class Utility3D
 	{
 		float hw = width*0.5f;
 		float hh = height*0.5f;
-		float as = width / height;
-		
 		float[][] sscm = {{hw, 0f, 0f, hw-0.5f},
 						  {0f,-hh, 0f, hh-0.5f},
 						  {0f, 0f, 1f, 0f},
 						  {0f, 0f, 0f, 1f}};
-		
-		float[][] aspt = {{1f, 0f, 0f, 0f},
-						  {0f, as, 0f, 0f},
-						  {0f, 0f, 1f, 0f},
-						  {0f, 0f, 0f, 1f}};
-		
-		return Matrix4.mul(sscm,aspt);
+		return sscm;
 	}
 	
 	/**
@@ -201,42 +211,42 @@ public class Utility3D
 		Y = Vector.merge(Y, Yd);
 		Z = Vector.merge(Z, Zd);
 		
-		return new float[][]{X, Y, Z,
-							 {0f,0f,0f,1f}};
+		return new float[][]{X, Y, Z, {0f,0f,0f,1f}};
 	}
 	
 	/**
 	 * Creates a perspective homogeneous transform matrix
 	 */
-	public static float[][] perspective(float fov, float near, float far)
+	public static float[][] perspective(float fov, float aspect, float near, float far)
 	{
-		float t 		= (float)Math.tan(RADIAN * fov * 0.5f);
-		float inv_t 	= 1f / t;
-		float n33 		= (far+near) / (far-near);
-		float n34 		= -(2*far*near) / (far-near);
-		
-	    return new float[][]{{inv_t, 0f, 0f, 0f},
-							 { 0f,inv_t, 0f, 0f},
-							 { 0f, 0f,-n33,n34},
-							 { 0f, 0f, -1f, 0f}};
+		float t = (float)Math.tan((double)(RADIAN * fov * 0.5f));
+        float n11 = 1f / (t * aspect);
+        float n22 = 1f / (t);
+        float n33 = (far + near) / (far - near);
+        float n34 = (- 2.0f * far * near) / (far - near);
+        return new float[][] {	{n11,  0f,  0f,  0f}, 
+					        	{ 0f, n22,  0f,  0f}, 
+					        	{ 0f,  0f,-n33, n34}, 
+					        	{ 0f,  0f, -1f,  0f}};
 	}
 	
 	/**
 	 * Creates an orthographic transform matrix
 	 */
-	public static float[][] orthographic(float fov, float near, float far)
+	public static float[][] orthographic(float fov, float aspect, float near, float far) 
 	{
-		float t = near * (float)Math.tan(RADIAN * fov * 0.5f);
-		float s = 0.7f;
-		float n11 = s / (t+t);
-		float n33 = s / (far-near);
-		float n34 = far*near*n33;
-		
-	    return new float[][]{{n11, 0f,  0f,  0f},
-							 { 0f,n11,  0f,  0f},
-							 { 0f, 0f,-n33, n34},
-							 { 0f, 0f,  0f,  1f}};
-	}
+        float t = near * (float)Math.tan((double)(RADIAN * fov * 0.5f));
+        float r = t * aspect;
+        float s = 0.7f;
+        float n11 = s / (r+r);
+        float n22 = s / (t+t);
+        float n33 = (-s) / (far - near);
+        float n34 = far * near * n33;
+        return new float[][]{	{n11,  0f,  0f,  0f}, 
+					        	{ 0f, n22,  0f,  0f}, 
+					        	{ 0f,  0f, n33, n34}, 
+					        	{ 0f,  0f,  0f,  1f}};
+    }
 	
 	/**
 	 * creates an orthographic transform matrix for lightbox transformation
@@ -246,7 +256,6 @@ public class Utility3D
 		float n11 = 2f / width;
 		float n22 = 2f / height;
 		float n33 = 2f / length;
-		
 	    return new float[][]{{n11, 0f,  0f, 0f},
 							 { 0f,n22,  0f, 0f},
 							 { 0f, 0f,-n33, 0f},

@@ -1,5 +1,6 @@
 /**
- * @version 1.0.4
+ * @version 1.0.5
+ * @author Michiel Drost - nullpointerworks
  */
 module libnpw.math
 {
