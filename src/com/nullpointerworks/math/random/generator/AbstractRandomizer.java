@@ -1,8 +1,6 @@
-package com.nullpointerworks.math.random.generator.abstracts;
+package com.nullpointerworks.math.random.generator;
 
-import com.nullpointerworks.math.random.generator.Randomizer;
-
-public abstract class AbstractRandomizer implements Randomizer 
+abstract class AbstractRandomizer implements Randomizer 
 {
 	/* (non-Javadoc)
 	 * @see com.nullpointerworks.math.random.generator.abstracts.IRandomizer#_double()

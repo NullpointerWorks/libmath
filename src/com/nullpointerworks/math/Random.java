@@ -1,3 +1,8 @@
+/*
+ * Creative Commons - Attribution, Share Alike 4.0 
+ * Nullpointer Works (2019)
+ * Use is subject to license terms.
+ */
 package com.nullpointerworks.math;
 
 import com.nullpointerworks.math.random.generator.LinearCongruential;
@@ -22,9 +27,9 @@ public class Random
 		return new SystemRandomizer();
 	}
 	
-	private static Randomizer instance = new SystemRandomizer();
+	private static Randomizer instance = SystemRandomizer();
 	public static Randomizer getRandomizer() {return instance;}
-	public static void setRandomizer( Randomizer r){instance = r;}
+	public static void setRandomizer( Randomizer r) {instance = r;}
 	
 	public static double Double() 
 	{

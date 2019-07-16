@@ -1,7 +1,5 @@
 package com.nullpointerworks.math.random.generator;
 
-import com.nullpointerworks.math.random.generator.abstracts.AbstractRandomizer;
-
 /*
  * https://en.wikipedia.org/wiki/Mersenne_Twister
  */

@@ -1,7 +1,5 @@
 package com.nullpointerworks.math.random.generator;
 
-import com.nullpointerworks.math.random.generator.abstracts.AbstractRandomizer;
-
 public class SystemRandomizer extends AbstractRandomizer
 {
 	public final double _double() 

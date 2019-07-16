@@ -2,7 +2,6 @@ package com.nullpointerworks.math.random.generator;
 
 public interface Randomizer
 {
-
 	double _double();
 
 	float _float();

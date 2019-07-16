@@ -1,7 +1,5 @@
 package com.nullpointerworks.math.random.generator;
 
-import com.nullpointerworks.math.random.generator.abstracts.AbstractRandomizer;
-
 /**
  *  Linear Congruential Generator
  *	a seeded Pseudo Random Number Generator<br>
