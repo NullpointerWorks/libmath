@@ -5,7 +5,6 @@
  */
 package com.nullpointerworks.math.geometry.g2d;
 
-import com.nullpointerworks.math.FastMath;
 import com.nullpointerworks.math.FloatMath;
 import com.nullpointerworks.math.vector.Vector2;
 
@@ -67,7 +66,7 @@ public class Triangle extends Geometry2D
 	@Override
 	public float area()
 	{
-		return FastMath.abs( cross(v1, v2, v3) ) * 0.5f;
+		return FloatMath.abs( cross(v1, v2, v3) ) * 0.5f;
 	}
 	
 	@Override

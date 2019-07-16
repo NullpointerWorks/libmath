@@ -3,12 +3,10 @@
  * Nullpointer Works (2019)
  * Use is subject to license terms.
  */
-package com.nullpointerworks.math.complex;
-
-import com.nullpointerworks.math.FastMath;
+package com.nullpointerworks.math;
 
 /**
- * Provides static methods that perform mathematical operations related to complex numbers. All operations provide a new {@code float[2]} object and do not modify the ocntent of the input. Complex numbers are represented in the format described below.
+ * Provides static methods that perform mathematical operations related to complex numbers. All operations provide a new {@code float[2]} object and do not modify the content of the input. Complex numbers are represented in the format described below.
 <pre>z = R + Ri
 float[2] {real, imaginary}</pre>
  * 
@@ -16,7 +14,16 @@ float[2] {real, imaginary}</pre>
  */
 public class Complex 
 {
+	/**
+	 * A complex number that represents {@code z = (1,0)}. 
+	 * @since 1.0.0
+	 */
 	public final static float[] ONE_R = new float[] {1f,0f};
+	
+	/**
+	 * A complex number that represents {@code z = (0,1)}. 
+	 * @since 1.0.0
+	 */
 	public final static float[] ONE_I = new float[] {0f,1f};
 	
 	/**
@@ -242,8 +249,8 @@ public class Complex
 	 */
 	public static float[] cis(float x)
 	{
-		float r = (float)FastMath.cos( x );
-		float i = (float)FastMath.sin( x );
+		float r = (float)Approximate.cos( x );
+		float i = (float)Approximate.sin( x );
 		return new float[] {r,i};
 	}
 	
@@ -276,9 +283,9 @@ public class Complex
 	}
 	
 	/**
-	 * The argument is returned in the range of 0 < arg(z) < 2*pi
-	 * @param 
-	 * @return 
+	 * Returns the angle in radians of the complex number. The argument is given in the range of {@code 0 < arg(z) < 2*pi}
+	 * @param z - the input complex number
+	 * @return the angle in radians
 	 * @since 1.0.0
 	 */
 	public static double argument(float[] z)
@@ -291,51 +298,47 @@ public class Complex
 	}
 	
 	/**
-	 * Returns the square of the given complex number
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Returns the square of the given complex number. Effectively the same as {@code mul(z,z)}.
+	 * @param z - the complex number to square
+	 * @return a complex number which is the square of {@code  z}
 	 * @since 1.0.0
 	 */
-	public static float[] square(float[] c)
+	public static float[] square(float[] z)
 	{
-		return mul(c,c);
+		return mul(z,z);
 	}
 	
 	/**
-	 * Converts the complex number into absolute values
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Takes the absolute value of the given complex number.
+	 * @param z - the complex number
+	 * @return a new complex number with the absolute components of {@code z}
 	 * @since 1.0.0
 	 */
-	public static float[] abs(float[] c)
+	public static float[] abs(float[] z)
 	{
-		float r=c[0], i=c[1];
+		float r=z[0], i=z[1];
 		return new float[] { (r<0f)?-r:r , (i<0f)?-i:i };
 	}
 	
 	/**
-	 * 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Returns a copy of the given complex number.
+	 * @param z - the complex number to copy
+	 * @return a copy of the given complex number
+	 * @since 1.0.0
+	 */
+	public static float[] copy(float[] z) 
+	{
+		return new float[] {z[0],z[1]};
+	}
+	
+	/**
+	 * Print the content of a complex number.
+	 * @param z - the complex number to print
+	 * @return a String with the content of {@code z}
 	 * @since 1.0.0
 	 */
 	public static String toString(float[] z)
 	{
-		return toString(z,"complex");
-	}
-
-	/**
-	 * 
-	 * @param 
-	 * @param 
-	 * @return 
-	 * @since 1.0.0
-	 */
-	public static String toString(float[] z, String name)
-	{
-		return name+": "+z[0]+((z[1]<0.0f)?"":"+")+z[1]+"i";
+		return ""+z[0]+((z[1]<0.0f)?"":"+")+z[1]+"i";
 	}
 }

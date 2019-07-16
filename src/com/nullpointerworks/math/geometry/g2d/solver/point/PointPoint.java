@@ -5,7 +5,7 @@
  */
 package com.nullpointerworks.math.geometry.g2d.solver.point;
 
-import com.nullpointerworks.math.FastMath;
+import com.nullpointerworks.math.FloatMath;
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 import com.nullpointerworks.math.geometry.g2d.Point;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
@@ -22,8 +22,8 @@ public class PointPoint implements IIntersectionSolver2
 		Point a = (Point)A;
 		Point b = (Point)B;
 		
-		float dx = FastMath.abs(b.x - a.x);
-		float dy = FastMath.abs(b.y - a.y);
+		float dx = FloatMath.abs(b.x - a.x);
+		float dy = FloatMath.abs(b.y - a.y);
 		
 		return (dx*dx + dy*dy) < TOLERANCE;
 	}

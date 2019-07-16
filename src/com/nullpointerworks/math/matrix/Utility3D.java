@@ -7,8 +7,8 @@ package com.nullpointerworks.math.matrix;
 
 import static com.nullpointerworks.math.FloatMath.RADIAN;
 
-import com.nullpointerworks.math.FastMath;
-import com.nullpointerworks.math.complex.Quaternion;
+import com.nullpointerworks.math.Approximate;
+import com.nullpointerworks.math.Quaternion;
 import com.nullpointerworks.math.vector.Vector;
 import com.nullpointerworks.math.vector.Vector3;
 import com.nullpointerworks.math.vector.Vector4;
@@ -169,23 +169,23 @@ public class Utility3D
 	 */
 	public static float[][] rotation(float roll, float pitch, float yaw)
 	{
-		float cos = (float) FastMath.cos(roll);
-		float sin = (float) FastMath.sin(roll);
+		float cos = (float) Approximate.cos(roll);
+		float sin = (float) Approximate.sin(roll);
 		
 		float[][] mRoll = new float[][]{{cos,-sin, 0f, 0f},
 										{sin, cos, 0f, 0f},
 										{ 0f,  0f, 1f, 0f},
 										{ 0f,  0f, 0f, 1f}};
 		
-		cos = (float) FastMath.cos(yaw);
-		sin = (float) FastMath.sin(yaw);
+		cos = (float) Approximate.cos(yaw);
+		sin = (float) Approximate.sin(yaw);
 		float[][] mPitch = new float[][]{{ cos, 0f,sin, 0f},
 										 {  0f, 1f, 0f, 0f},
 										 {-sin, 0f,cos, 0f},
 										 {  0f, 0f, 0f, 1f}};
 		
-		cos = (float) FastMath.cos(pitch);
-		sin = (float) FastMath.sin(pitch);
+		cos = (float) Approximate.cos(pitch);
+		sin = (float) Approximate.sin(pitch);
 		float[][] mYaw = new float[][]{ { 1f, 0f,  0f, 0f},
 									 	{ 0f,cos,-sin, 0f},
 									 	{ 0f,sin, cos, 0f},

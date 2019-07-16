@@ -22,6 +22,22 @@ public class IntMath
 	}
 	
 	/*
+	 * optimized integer absolute finder. fails when MIN_VALUE is used
+	 */
+	public static final int absx(int n)
+	{
+		return (n + (n >> 31)) ^ (n >> 31);
+	}
+	
+	/**
+	 * return absolute of an integer
+	 */
+	public static int abs(int x)
+	{
+		return ((x >= 0) ? x : -x);
+	}
+	
+	/*
 	 * copy an array without using clone()
 	 */
 	public static int[] copy(int[] a)
@@ -79,14 +95,6 @@ public class IntMath
 	public static int ceil(float x)
 	{
 		return (int)Math.ceil(x);
-	}
-	
-	/**
-	 * return absolute of an integer
-	 */
-	public static int abs(int x)
-	{
-		return ((x >= 0) ? x : -x);
 	}
 	
 	/**

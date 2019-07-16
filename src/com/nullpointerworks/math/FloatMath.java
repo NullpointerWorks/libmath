@@ -5,27 +5,58 @@
  */
 package com.nullpointerworks.math;
 
+/**
+ * 
+ * @since 1.0.0
+ */
 public class FloatMath
 {
 	/**
-	 * pre-calculated constant; a = 180 / PI
+	 * The amount of degrees per radian, {@code 180/PI}.
+	 * @since 1.0.0
 	 */
 	public static final float HALFANGLE = 57.29578f;
+	
+	/**
+	 * The amount of radians per degree, {@code PI/180}.
+	 * @since 1.0.0
+	 */
 	public static final float RADIAN 	= 0.017453292f;
 	
-	/*
-	 * constants
+	/**
+	 * The golden ratio, known as the Greek letter phi. A geometric ratio that is observed often in natural phenomena.
+	 * @since 1.0.0
 	 */
-	public static final float APERY 		= (1.2020569f);
-	public static final float FEIGENBAUM 	= (1.4011402f);
 	public static final float PHI 			= (1.6180340f);
+	
+	/**
+	 * The silver ratio, is the ratio of 
+	 * @since 1.0.0
+	 */
 	public static final float SILVER 		= (2.4142136f);
+	
+	/**
+	 * 
+	 * @since 1.0.0
+	 */
 	public static final float NATURAL		= (2.7182818f);
+	
+	/**
+	 * 
+	 * @since 1.0.0
+	 */
 	public static final float PI 			= (3.141592654f);
+	
+	/**
+	 * 
+	 * @since 1.0.0
+	 */
 	public static final float TAU 			= (6.283185307f);
 	
 	/**
-	 * solves for a^2 + b^2 = c^2
+	 * Solves for a^2 + b^2 = c^2
+	 * 
+	 * @since 1.0.0
 	 */
 	public static float pythagoras(float a, float b)
 	{
@@ -36,6 +67,7 @@ public class FloatMath
 	 * map a value x from one range to another range of values<br>
 	 * range 1 = [low1, high1]<br>
 	 * range 2 = [low2, high2]<br>
+	 * @since 1.0.0
 	 */
 	public static float map(float x, float low1, float high1, float low2, float high2)
 	{
@@ -48,6 +80,7 @@ public class FloatMath
 	
 	/**
 	 * Returns the fractional part of the given floating-point number
+	 * @since 1.0.0
 	 */
 	public static float fraction(float x)
 	{
@@ -55,7 +88,35 @@ public class FloatMath
 	}
 	
 	/**
+	 * 
+	 * @since 1.0.0
+	 */
+	public static float sign(float f) 
+	{
+	    return (Float.floatToIntBits(f)>>>31);
+	}
+	
+	/**
+	 * fast float absolute function
+	 * @since 1.0.0
+	 */
+	public static final float abs(float n)
+	{
+		return Float.intBitsToFloat( 0x7fffffff & Float.floatToIntBits(n) );
+	}
+	
+	/**
+	 * fast 32bit ceiling function
+	 * @since 1.0.0
+	 */
+	public static final float ceil(float n)
+	{
+		return ((float)(int)(n + ((n>0.0f)?1:0) ));
+	}
+	
+	/**
 	 * linear interpolation function
+	 * @since 1.0.0
 	 */
 	public static float lerp(float start, float end, float inter)
 	{
@@ -64,15 +125,17 @@ public class FloatMath
 	
 	/**
 	 * cosine interpolation function
+	 * @since 1.0.0
 	 */
 	public static float cerp( float y1,float y2, float inter)
 	{
-		float mu2 = (float) ((1f-FastMath.cos(inter*PI)) * 0.5f);
+		float mu2 = (float) ((1f-Approximate.cos(inter*PI)) * 0.5f);
 		return lerp(y1,y2,mu2);
 	}
 	
 	/**
 	 * cubic interpolation function
+	 * @since 1.0.0
 	 */
 	public static float curp(float y0,float y1,float y2,float y3,float inter)
 	{
@@ -98,6 +161,7 @@ public class FloatMath
 	 *       positive is towards first segment,
 	 *       negative towards the other
 	 * src: http://paulbourke.net/miscellaneous/interpolation/
+	 * @since 1.0.0
 	 */
 	public static float hermite(float y0,float y1, float y2,float y3,
 							    float mu, float tension, float bias)
@@ -120,6 +184,7 @@ public class FloatMath
 	
 	/**
 	 * fade function: f(x) = 6x^5 - 15x^4 + 10x^3
+	 * @since 1.0.0
 	 */
 	public static float fade(float t) 
 	{ 
@@ -128,17 +193,19 @@ public class FloatMath
 	
 	/*
 	 * returns the area of the given triangle
+	 * @since 1.0.0
 	 */
 	public static float area(	float x1, float y1, 
 								float x2, float y2, 
 								float x3, float y3) 
 	{
-		return 0.5f * (float)FastMath.abs( (x1-x3)*(y2-y1)-(x1-x2)*(y3-y1) );
+		return 0.5f * (float)abs( (x1-x3)*(y2-y1)-(x1-x2)*(y3-y1) );
 	}
 	
 	/**
 	 * clamp a given value between two values.<br>
 	 * saturation can be done with: sat(x) = clamp(0.0f, x, 1.0f)<br>
+	 * @since 1.0.0
 	 */
 	public static float clamp(float lower, float x, float upper)
 	{
@@ -159,6 +226,7 @@ public class FloatMath
 	
 	/**
 	 * test if a value is strictly between the interval
+	 * @since 1.0.0
 	 */
 	public static boolean between(float x1, float v, float x2)
 	{
@@ -167,6 +235,7 @@ public class FloatMath
 	
 	/**
 	 * find the largest number of three numbers
+	 * @since 1.0.0
 	 */
 	public static float max(float x1,float x2,float x3)
 	{
@@ -176,6 +245,7 @@ public class FloatMath
 	
 	/**
 	 * find the smallest number of three numbers
+	 * @since 1.0.0
 	 */
 	public static float min(float x1,float x2,float x3)
 	{
@@ -185,6 +255,7 @@ public class FloatMath
 	
 	/**
 	 * find the middle number of three numbers
+	 * @since 1.0.0
 	 */
 	public static float mid(float a,float b,float c)
 	{
@@ -192,58 +263,109 @@ public class FloatMath
 	}
 	
 	/**
-	 * returns the value of the number given in the function.
-	 * useful for switching through values.
-	 * returns 0 if the resulting values are tied
+	 * 
+	 * @since 1.0.0
 	 */
-	public static int findMax(float x1,float x2,float x3)
+	public static float sinc(float theta)
 	{
-		int x = (x1<x2)?2:1;
-		return (x<x3)?3:((x==x3)?0:3);
-	}
-	public static int findMin(float x1,float x2,float x3)
-	{
-		int x = (x1<x2)?1:2;
-		return (x<x3)?x:((x==x3)?0:3);
+		if (theta==0f) return 1f;
+		return (float) StrictMath.sin(theta) / theta;
 	}
 	
 	// ==================================================================
 	//    trigonometry
 	// ==================================================================
 	
-	/*
-	 * float cast trig delegates.
-	 */
+	/**
+     * Returns the trigonometric cosine of an angle. Special cases:
+     * <ul><li>If the argument is NaN or an infinity, then the
+     * result is NaN.</ul>
+     * @param theta - an angle, in radians.
+     * @return the cosine of the argument.
+     * @see StrictMath
+     */
 	public static float cos(float theta)
 	{
 		return (float) StrictMath.cos(theta);
 	}
+	
+	/**
+     * Returns the arc cosine of a value; the returned angle is in the
+     * range 0.0 through <i>pi</i>.  Special case:
+     * <ul><li>If the argument is NaN or its absolute value is greater
+     * than 1, then the result is NaN.</ul>
+     *
+     * @param   theta - the value whose arc cosine is to be returned.
+     * @return  the arc cosine of the argument.
+     * @see StrictMath
+     */
 	public static float acos(float theta)
 	{
 		return (float) StrictMath.acos(theta);
 	}
-
+	
+	/**
+     * Returns the trigonometric sine of an angle. Special cases:
+     * <ul><li>If the argument is NaN or an infinity, then the
+     * result is NaN.
+     * <li>If the argument is zero, then the result is a zero with the
+     * same sign as the argument.</ul>
+     *
+     * @param   theta - an angle, in radians.
+     * @return  the sine of the argument.
+     * @see StrictMath
+     */
 	public static float sin(float theta)
 	{
 		return (float) StrictMath.sin(theta);
 	}
+	
+	/**
+     * Returns the arc sine of a value; the returned angle is in the
+     * range -<i>pi</i>/2 through <i>pi</i>/2.  Special cases:
+     * <ul><li>If the argument is NaN or its absolute value is greater
+     * than 1, then the result is NaN.
+     * <li>If the argument is zero, then the result is a zero with the
+     * same sign as the argument.</ul>
+     *
+     * @param   theta - the value whose arc sine is to be returned.
+     * @return  the arc sine of the argument.
+     * @see StrictMath
+     */
 	public static float asin(float theta)
 	{
 		return (float) StrictMath.asin(theta);
 	}
 
+	/**
+     * Returns the trigonometric tangent of an angle. Special cases:
+     * <ul><li>If the argument is NaN or an infinity, then the result
+     * is NaN.
+     * <li>If the argument is zero, then the result is a zero with the
+     * same sign as the argument.</ul>
+     *
+     * @param   delta - an angle, in radians.
+     * @return  the tangent of the argument.
+     * @see StrictMath
+     */
 	public static float tan(float delta)
 	{
 		return (float) StrictMath.tan(delta);
 	}
+	
+	/**
+     * Returns the arc tangent of a value; the returned angle is in the
+     * range -<i>pi</i>/2 through <i>pi</i>/2.  Special cases:
+     * <ul><li>If the argument is NaN, then the result is NaN.
+     * <li>If the argument is zero, then the result is a zero with the
+     * same sign as the argument.</ul>
+     *
+     * @param   delta - the value whose arc tangent is to be returned.
+     * @return  the arc tangent of the argument.
+     * @see StrictMath
+     */
 	public static float atan(float delta)
 	{
 		return (float) StrictMath.atan(delta);
-	}
-	
-	public static float sinc(float theta)
-	{
-		if (theta==0f) return 1f;
-		return (float) StrictMath.sin(theta) / theta;
 	}
 }

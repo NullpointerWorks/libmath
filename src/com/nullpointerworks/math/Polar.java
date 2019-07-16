@@ -17,8 +17,8 @@ public class Polar
 	 */
 	public static float[] toComplex(float[] p)
 	{
-		float r = p[0] * (float)FastMath.cos( p[1] );
-		float i = p[0] * (float)FastMath.sin( p[1] );
+		float r = p[0] * (float)Approximate.cos( p[1] );
+		float i = p[0] * (float)Approximate.sin( p[1] );
 		return new float[] {r,i};
 	}
 	

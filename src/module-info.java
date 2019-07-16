@@ -10,7 +10,6 @@
 module libnpw.math
 {
 	exports com.nullpointerworks.math;
-	exports com.nullpointerworks.math.complex;
 	exports com.nullpointerworks.math.geometry;
 	exports com.nullpointerworks.math.geometry.g2d;
 	exports com.nullpointerworks.math.geometry.logic;

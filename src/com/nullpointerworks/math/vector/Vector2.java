@@ -5,7 +5,7 @@
  */
 package com.nullpointerworks.math.vector;
 
-import com.nullpointerworks.math.FastMath;
+import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.random.generator.Randomizer;
 
 /**
@@ -284,8 +284,8 @@ public class Vector2
 	 */
 	public static float[] rotation(float angle)
 	{
-		float cs = (float)FastMath.cos(angle);
-		float sn = (float)FastMath.sin(angle);
+		float cs = (float)Approximate.cos(angle);
+		float sn = (float)Approximate.sin(angle);
 		return new float[]{cs,sn};
 	}
 	
@@ -294,8 +294,8 @@ public class Vector2
 	 */
 	public static float[] rotate(float[] v, float angle)
 	{
-		float cs = (float)FastMath.cos(angle);
-		float sn = (float)FastMath.sin(angle);
+		float cs = (float)Approximate.cos(angle);
+		float sn = (float)Approximate.sin(angle);
 		return new float[]{ cs*v[0] - sn*v[1],
 							sn*v[0] + cs*v[1]};
 	}

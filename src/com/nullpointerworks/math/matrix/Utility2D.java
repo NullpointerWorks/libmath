@@ -5,7 +5,7 @@
  */
 package com.nullpointerworks.math.matrix;
 
-import com.nullpointerworks.math.FastMath;
+import com.nullpointerworks.math.Approximate;
 
 public class Utility2D 
 {
@@ -82,7 +82,7 @@ public class Utility2D
 								 { 0f, 1f, 0f}, 
 				 				 { 0f, 0f, 1f}};
 		}
-		float sin = (float) FastMath.sin(angle);
+		float sin = (float) Approximate.sin(angle);
 		return new float[][]{{ 1f, 0f, 0f}, 
 							 {sin, 1f, 0f}, 
 			 				 { 0f, 0f, 1f}};
@@ -125,8 +125,8 @@ public class Utility2D
 	 */
 	public static float[][] rotation(float roll)
 	{
-		float cos = (float) FastMath.cos(roll);
-		float sin = (float) FastMath.sin(roll);
+		float cos = (float) Approximate.cos(roll);
+		float sin = (float) Approximate.sin(roll);
 		float[][] mRoll = new float[][]{{cos,-sin, 0f},
 										{sin, cos, 0f},
 										{ 0f,  0f, 1f}};
