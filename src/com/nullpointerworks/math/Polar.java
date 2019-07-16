@@ -8,6 +8,7 @@ package com.nullpointerworks.math;
 /**
  * p = r (cos T + i sin T) <br>
  * float[2] = {r,T}
+ * @since 1.0.0
  */
 public class Polar 
 {
