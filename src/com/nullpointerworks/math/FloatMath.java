@@ -6,7 +6,7 @@
 package com.nullpointerworks.math;
 
 /**
- * 
+ * A collection of float based mathematical operations. It contains a few useful constants, interpolation functions, trigonometry, etc.
  * @since 1.0.0
  */
 public class FloatMath
@@ -15,47 +15,40 @@ public class FloatMath
 	 * The amount of degrees per radian, {@code 180/PI}.
 	 * @since 1.0.0
 	 */
-	public static final float HALFANGLE = 57.29578f;
+	public static final float HALFANGLE 	= 57.29578f;
 	
 	/**
 	 * The amount of radians per degree, {@code PI/180}.
 	 * @since 1.0.0
 	 */
-	public static final float RADIAN 	= 0.017453292f;
+	public static final float RADIAN 		= 0.017453292f;
 	
 	/**
-	 * The golden ratio, known as the Greek letter phi. A geometric ratio that is observed often in natural phenomena.
-	 * @since 1.0.0
-	 */
-	public static final float PHI 			= (1.6180340f);
-	
-	/**
-	 * The silver ratio, is the ratio of 
-	 * @since 1.0.0
-	 */
-	public static final float SILVER 		= (2.4142136f);
-	
-	/**
-	 * 
+	 * The natural number {@code e}, roughly {@code 2.7182}, occurs frequently in nature and physical phenomena.
 	 * @since 1.0.0
 	 */
 	public static final float NATURAL		= (2.7182818f);
 	
 	/**
-	 * 
+	 * The circle ratio of the diameter divided by the circumference, denoted with the Greek letter pi.
 	 * @since 1.0.0
 	 */
 	public static final float PI 			= (3.141592654f);
 	
 	/**
-	 * 
+	 * The circle ratio of the radius divided by the circumference, denoted with the Greek letter tau.
 	 * @since 1.0.0
 	 */
 	public static final float TAU 			= (6.283185307f);
 	
 	/**
-	 * Solves for a^2 + b^2 = c^2
-	 * 
+	 * Returns the length of the hypotenuse of a right angled triangle with the sides {@code a} and {@code b}.
+	 * <pre>c = sqrt(a^2 + b^2)</pre>
+	 * Or, when applying the cosine rule:
+	 * <pre>c = sqrt(a^2 + b^2 - 2ab*cos( 90 ))</pre>
+	 * @param a - the length of a side
+	 * @param b - the length of another side
+	 * @return the length of the hypotenuse of a right angled triangle with the sides {@code a} and {@code b}
 	 * @since 1.0.0
 	 */
 	public static float pythagoras(float a, float b)
@@ -64,9 +57,15 @@ public class FloatMath
 	}
 	
 	/**
-	 * map a value x from one range to another range of values<br>
+	 * Map the value {@code x} from one range to another range.
 	 * range 1 = [low1, high1]<br>
 	 * range 2 = [low2, high2]<br>
+	 * @param x - the value to map
+	 * @param low1 - the minimal value of the source range
+	 * @param high1 - the maximum value of the source range
+	 * @param low2 - the minimal value of the destination range
+	 * @param high2 - the maximum value of the destination range
+	 * @return the mapped value
 	 * @since 1.0.0
 	 */
 	public static float map(float x, float low1, float high1, float low2, float high2)
@@ -79,7 +78,9 @@ public class FloatMath
 	}
 	
 	/**
-	 * Returns the fractional part of the given floating-point number
+	 * Returns the fractional component of the given number. 
+	 * @param x - input value
+	 * @return the fractional component of the given number
 	 * @since 1.0.0
 	 */
 	public static float fraction(float x)
@@ -88,80 +89,103 @@ public class FloatMath
 	}
 	
 	/**
-	 * 
+	 * Returns {@code 1.0} if the input value is positive, {@code -1.0} otherwise.
+	 * @param x - input value
+	 * @return {@code 1.0} if the input value is positive, {@code -1.0} otherwise
 	 * @since 1.0.0
 	 */
-	public static float sign(float f) 
+	public static float sign(float x) 
 	{
-	    return (Float.floatToIntBits(f)>>>31);
+	    return (Float.floatToIntBits(x)>>>31);
 	}
 	
 	/**
-	 * fast float absolute function
+	 * Returns the absolute value of the given float.
+	 * @param n - input value
+	 * @return the absolute value of the given float
 	 * @since 1.0.0
 	 */
-	public static final float abs(float n)
+	public static float abs(float n)
 	{
 		return Float.intBitsToFloat( 0x7fffffff & Float.floatToIntBits(n) );
 	}
 	
 	/**
-	 * fast 32bit ceiling function
+	 * Returns the ceiling of the given float.
+	 * @param n - input value
+	 * @return the ceiling of the given float
 	 * @since 1.0.0
 	 */
-	public static final float ceil(float n)
+	public static float ceil(float n)
 	{
-		return ((float)(int)(n + ((n>0.0f)?1:0) ));
+		return (int)(n+((n>0.0f)?1:0));
 	}
 	
 	/**
-	 * linear interpolation function
+	 * Linear interpolation is a method of stepping from one value to another at a fixed ratio using a scalar that ranges from {@code 0.0} to {@code 1.0}.
+	 * @param start - the starting value
+	 * @param end - the end value
+	 * @param step - the interpolation scalar
+	 * @return the resulting interpolant
 	 * @since 1.0.0
 	 */
-	public static float lerp(float start, float end, float inter)
+	public static float lerp(float start, float end, float step)
 	{
-		return start*(1f-inter) + end*inter;
+		return start-(start+end)*step;
 	}
 	
 	/**
-	 * cosine interpolation function
+	 * Cosine interpolation is a method of stepping from one value to another with a curve defined by {@code cos(x)}. This makes the interpolation seem like a smooth progression. The interpolated value is returned by using a scalar that ranges from {@code 0.0} to {@code 1.0}.
+	 * @param start - the starting value
+	 * @param end - the end value
+	 * @param step - the interpolation scalar
+	 * @return the resulting interpolant
 	 * @since 1.0.0
 	 */
-	public static float cerp( float y1,float y2, float inter)
+	public static float cerp( float start,float end, float step)
 	{
-		float mu2 = (float) ((1f-Approximate.cos(inter*PI)) * 0.5f);
-		return lerp(y1,y2,mu2);
+		float mu2 = (float) ((1.0 - Approximate.cos(step*PI)) * 0.5);
+		return lerp(start,end,mu2);
 	}
 	
 	/**
-	 * cubic interpolation function
+	 * Cubic interpolation is a method of stepping from one value to another with a curve defined by the derivative of a third-degree polynomial. It's the simplest method of achieving true continuity between segments. This method of interpolation uses four data points through which the polynomial is derived. The interpolation is done through the second and third data point. The first and last data points are only used to determine the slope at the start and end of the curve. This cubic interpolation function uses Catmull-Rom spline coefficients to find the slopes at each data point.
+	 * @param y0 - data point to determine starting slope
+	 * @param y1 - data point from where the interpolation starts
+	 * @param y2 - data point from where the interpolation end
+	 * @param y3 - data point to determine ending slope
+	 * @param step - the interpolation scalar
+	 * @return the resulting interpolant
 	 * @since 1.0.0
 	 */
-	public static float curp(float y0,float y1,float y2,float y3,float inter)
+	public static float curp(float y0,float y1,float y2,float y3,float step)
 	{
 		float a0,a1,a2,a3,mu2;
-		mu2 = inter*inter;
+		mu2 = step*step;
 		//a0 = y3 - y2 - y0 + y1;
 		//a1 = y0 - y1 - a0;
 		//a2 = y2 - y0;
 		//a3 = y1;
-		
-		// Catmull-Rom spline coefficients
 		a0 = -0.5f*y0 + 1.5f*y1 - 1.5f*y2 + 0.5f*y3;
 		a1 = y0 - 2.5f*y1 + 2f*y2 - 0.5f*y3;
 		a2 = -0.5f*y0 + 0.5f*y2;
 		a3 = y1;
-		
-		return (a0*inter*mu2+a1*mu2+a2*inter+a3);
+		return (a0*step*mu2+a1*mu2+a2*step+a3);
 	}
 	
-	/*
-	 * Tension: 1 = high, 0 = normal, -1 = low
-	 * Bias: 0 is even,
-	 *       positive is towards first segment,
-	 *       negative towards the other
-	 * src: http://paulbourke.net/miscellaneous/interpolation/
+	/**
+	 * Hermite interpolation, like cubic, uses four data points through which to interpolate. However, this function provides additional controls for tightening the curve, or make it twist around each data point.
+	 * Like with cubic interpolation, the second and third parameter are the values through which the interpolation is done. 
+	 * @param y0 - data point to determine starting slope
+	 * @param y1 - data point from where the interpolation starts
+	 * @param y2 - data point from where the interpolation end
+	 * @param y3 - data point to determine ending slope
+	 * @param mu - the interpolation scalar
+	 * @param tension - 1 = high, 0 = normal, -1 = low
+	 * @param bias - positive values twists towards the first segment, negative twist towards the second
+	 * @return the resulting interpolant
 	 * @since 1.0.0
+	 * @see http://paulbourke.net/miscellaneous/interpolation/
 	 */
 	public static float hermite(float y0,float y1, float y2,float y3,
 							    float mu, float tension, float bias)
@@ -183,16 +207,14 @@ public class FloatMath
 	}
 	
 	/**
-	 * fade function: f(x) = 6x^5 - 15x^4 + 10x^3
-	 * @since 1.0.0
-	 */
-	public static float fade(float t) 
-	{ 
-		return t * t * t * (t * (t * 6 - 15) + 10); 
-	}
-	
-	/*
-	 * returns the area of the given triangle
+	 * Returns the area of a triangle defines by three {@code (x,y)} coordinates. In essence, the area of a triangle is the {@code z} component of a cross product of two of the sides multiplied by {@code 0.5}.
+	 * @param x1 - x of the first coordinate
+	 * @param y1 - y of the first coordinate
+	 * @param x2 - x of the second coordinate
+	 * @param y2 - y of the second coordinate
+	 * @param x3 - x of the third coordinate
+	 * @param y3 - y of the third coordinate
+	 * @return the area of the given triangle
 	 * @since 1.0.0
 	 */
 	public static float area(	float x1, float y1, 
@@ -203,8 +225,11 @@ public class FloatMath
 	}
 	
 	/**
-	 * clamp a given value between two values.<br>
-	 * saturation can be done with: sat(x) = clamp(0.0f, x, 1.0f)<br>
+	 * Clamps the given value of {@code x} between an lower and upper limit.
+	 * @param lower - the lower limit
+	 * @param x - the value to clamp
+	 * @param upper - the upper limit
+	 * @return the clamped value of {@code x}
 	 * @since 1.0.0
 	 */
 	public static float clamp(float lower, float x, float upper)
@@ -213,48 +238,51 @@ public class FloatMath
 		float x1 = (x<lower)?lower:x;
 		return (x1<upper)?x1:upper;
 	}
-
-	public static float max(float x1, float x2) 
-	{
-		return (x1<x2)?x2:x1;
-	}
-	
-	public static float min(float x1, float x2) 
-	{
-		return (x1<x2)?x1:x2;
-	}
 	
 	/**
-	 * test if a value is strictly between the interval
+	 * Returns the largest of two numbers. When the number are equal, this returns the value of {@code a}.
+	 * @param a - a number
+	 * @param b - another number
+	 * @return the largest of two numbers
 	 * @since 1.0.0
 	 */
-	public static boolean between(float x1, float v, float x2)
+	public static float max(float a, float b) 
 	{
-		return (x1 < v && v < x2);
+		return (a<b)?b:a;
 	}
 	
 	/**
-	 * find the largest number of three numbers
+	 * Returns the smallest of two numbers. When the number are equal, this returns the value of {@code a}.
+	 * @param a - a number
+	 * @param b - another number
+	 * @return the smallest of two numbers
 	 * @since 1.0.0
 	 */
-	public static float max(float x1,float x2,float x3)
+	public static float min(float a, float b) 
 	{
-		float x = (x1<x2)?x2:x1;
-		return (x<x3)?x3:x;
+		return (a<b)?a:b;
 	}
 	
 	/**
-	 * find the smallest number of three numbers
+	 * Returns the largest of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the largest of three numbers
 	 * @since 1.0.0
 	 */
-	public static float min(float x1,float x2,float x3)
+	public static float max(float a,float b,float c)
 	{
-		float x = (x1<x2)?x1:x2;
-		return (x<x3)?x:x3;
+		float x = (a<b)?b:a;
+		return (x<c)?c:x;
 	}
 	
 	/**
-	 * find the middle number of three numbers
+	 * Returns the middle of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the middle of three numbers
 	 * @since 1.0.0
 	 */
 	public static float mid(float a,float b,float c)
@@ -263,7 +291,23 @@ public class FloatMath
 	}
 	
 	/**
-	 * 
+	 * Returns the smallest of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the smallest of three numbers
+	 * @since 1.0.0
+	 */
+	public static float min(float a,float b,float c)
+	{
+		float x = (a<b)?a:b;
+		return (x<c)?x:c;
+	}
+	
+	/**
+	 * The cardinal sine function using {@code StrictMath.sin()}.
+     * @param theta - an angle, in radians.
+     * @return the cardinal sine of the argument.
 	 * @since 1.0.0
 	 */
 	public static float sinc(float theta)
@@ -271,10 +315,6 @@ public class FloatMath
 		if (theta==0f) return 1f;
 		return (float) StrictMath.sin(theta) / theta;
 	}
-	
-	// ==================================================================
-	//    trigonometry
-	// ==================================================================
 	
 	/**
      * Returns the trigonometric cosine of an angle. Special cases:
@@ -294,9 +334,8 @@ public class FloatMath
      * range 0.0 through <i>pi</i>.  Special case:
      * <ul><li>If the argument is NaN or its absolute value is greater
      * than 1, then the result is NaN.</ul>
-     *
-     * @param   theta - the value whose arc cosine is to be returned.
-     * @return  the arc cosine of the argument.
+     * @param theta - the value whose arc cosine is to be returned.
+     * @return the arc cosine of the argument.
      * @see StrictMath
      */
 	public static float acos(float theta)
@@ -310,9 +349,8 @@ public class FloatMath
      * result is NaN.
      * <li>If the argument is zero, then the result is a zero with the
      * same sign as the argument.</ul>
-     *
-     * @param   theta - an angle, in radians.
-     * @return  the sine of the argument.
+     * @param theta - an angle, in radians.
+     * @return the sine of the argument.
      * @see StrictMath
      */
 	public static float sin(float theta)
@@ -327,9 +365,8 @@ public class FloatMath
      * than 1, then the result is NaN.
      * <li>If the argument is zero, then the result is a zero with the
      * same sign as the argument.</ul>
-     *
-     * @param   theta - the value whose arc sine is to be returned.
-     * @return  the arc sine of the argument.
+     * @param theta - the value whose arc sine is to be returned.
+     * @return the arc sine of the argument.
      * @see StrictMath
      */
 	public static float asin(float theta)
@@ -343,9 +380,8 @@ public class FloatMath
      * is NaN.
      * <li>If the argument is zero, then the result is a zero with the
      * same sign as the argument.</ul>
-     *
-     * @param   delta - an angle, in radians.
-     * @return  the tangent of the argument.
+     * @param delta - an angle, in radians.
+     * @return the tangent of the argument.
      * @see StrictMath
      */
 	public static float tan(float delta)
@@ -359,9 +395,8 @@ public class FloatMath
      * <ul><li>If the argument is NaN, then the result is NaN.
      * <li>If the argument is zero, then the result is a zero with the
      * same sign as the argument.</ul>
-     *
-     * @param   delta - the value whose arc tangent is to be returned.
-     * @return  the arc tangent of the argument.
+     * @param delta - the value whose arc tangent is to be returned.
+     * @return the arc tangent of the argument.
      * @see StrictMath
      */
 	public static float atan(float delta)

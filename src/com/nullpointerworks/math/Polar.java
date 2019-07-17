@@ -6,14 +6,19 @@
 package com.nullpointerworks.math;
 
 /**
- * p = r (cos T + i sin T) <br>
- * float[2] = {r,T}
+ * Contains static members to help with polar coordinate translation to complex numbers.
+ * <pre>
+ * p = r (cos T + i sin T)
+ * p = float[2] = {r,T}</pre>
  * @since 1.0.0
  */
 public class Polar 
 {
 	/**
-	 * convert a polar form into a complex number
+	 * Convert a polar form into a complex number.
+	 * @param p - the polar coordinate
+	 * @return a complex number from polar
+	 * @since 1.0.0
 	 */
 	public static float[] toComplex(float[] p)
 	{
@@ -23,7 +28,11 @@ public class Polar
 	}
 	
 	/**
-	 * multiply two polar form numbers with each other
+	 * Multiplies two polar form numbers with each other.
+	 * @param p - a polar coordinate
+	 * @param q - a polar coordinate
+	 * @return the result of the multiplication
+	 * @since 1.0.0
 	 */
 	public static float[] mul(float[] p, float[] q)
 	{
@@ -33,7 +42,11 @@ public class Polar
 	}
 	
 	/**
-	 * divide two polar form numbers from each other
+	 * Divide two polar form numbers from each other.
+	 * @param p - a polar coordinate
+	 * @param q - a polar coordinate
+	 * @return the result of the division
+	 * @since 1.0.0
 	 */
 	public static float[] div(float[] p, float[] q)
 	{
@@ -41,5 +54,4 @@ public class Polar
 		float t = p[1] - q[1];
 		return new float[] {r,t};
 	}
-	
 }

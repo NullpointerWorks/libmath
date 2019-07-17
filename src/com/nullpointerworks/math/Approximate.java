@@ -24,78 +24,88 @@ public class Approximate
 	}
 	
 	/**
-	 * fast pow(a,b) function
+	 * A fast {@code pow(n,m)} function.
+	 * @param n - base number
+	 * @param m - the power to raise
+	 * @return the approximate value of {@code n^m}
+	 * @since 1.0.0
 	 */
-	public static final double pow(double a, double b) 
+	public static final double pow(double n, double m) 
 	{
-	    long tmp = (long)(9076650*(a-1) / (a+1+4*(Math.sqrt(a)))*b + 1072632447);
+	    long tmp = (long)(9076650*(n-1) / (n+1+4*(Math.sqrt(n)))*m + 1072632447);
 	    return Double.longBitsToDouble(tmp << 32);
 	}
 	
 	/**
-	 * Fast approximation of a cardinal sine function.
-	 * @param x - input value
-	 * @return the approximate value of {@code sinc(x)}
-	 * @since 1.0.0
-	 */
-	public static final double sinc(double x) 
-	{
-		if (x==0.0) return 1d;
-		return sin(x)/x;
-	}
-	
-	/**
-	 * Fast sinusoidal wave approximation modeled after the Taylor-series.
-	 * @param x - input value
+	 * Fast sinusoidal wave approximation modeled after Bhaskara I's sine approximation formula. Error deviation from {@code Math.sin(x)} goes up to approximately {@code 1.86%}.
+	 * @param x - angle in radians
 	 * @return the approximate value of {@code sin(x)}
 	 * @since 1.0.0
 	 */
 	public static final double sin(double x) 
 	{
-		double a = x%6.283185307;
-		if (a<0.0d) return -sin(-x);
-		double mod = -1.0;
-		if (a>3.14159) 
+		if (x < 0.0)
 		{
-			mod = 1.0;
-			a -= 3.141592654;
+			return -sin(-x);
 		}
-		a = -a * .63661977237;
-		double aa = a * a;
-		return mod*( ( ( (.00015148419 * aa 
-						- .00467376557) * aa 
-						+ .07968967928) * aa 
-						- .64596371106) * aa 
-						+ 1.57079631847) * a;
+		x %= TAU;
+		if (x <= PI)
+		{
+			return bhaskara(x);
+		}
+		return -bhaskara(x-PI);
+	}
+	
+	private static final double PI 	 = 3.141592654;
+	private static final double TAU  = 2*PI;
+	private static final double PI05 = 0.5*PI;
+	private static final double PI35 = 3.0*PI05;
+	private static final double bhaskara(double x) 
+	{
+		double r = x*(PI - x);
+		double n = 4.0*r;
+		double d = 12.3370057 - r;
+		return n/d;
 	}
 	
 	/**
-	 * Fast cosinusoidal wave approximation modeled after the Taylor-series.
-	 * @param x - input value
+	 * Fast approximation of a cardinal sine function. Uses an adaptation of Bhaskara I's sine approximation. Error deviation from {@code Math.sin(x)} goes up to approximately {@code 1.86%}.
+	 * @param x - angle in radians
+	 * @return the approximate value of {@code sinc(x)}
+	 * @since 1.0.0
+	 */
+	public static final double sinc(double x) 
+	{
+		if (x==0.0) return 1.0;
+		return sin(x)/x;
+	}
+	
+	/**
+	 * Fast cosinusoidal wave approximation modeled after Bhaskara I's sine approximation formula. Error deviation from {@code Math.cos(x)} goes up to approximately {@code 1.87%}.
+	 * @param x - angle in radians
 	 * @return the approximate value of {@code cos(x)}
 	 * @since 1.0.0
 	 */
 	public static final double cos(double x) 
 	{
-		double a = (x + 1.5707963267)%6.283185307;
-		if (a<0.0d) return cos(-x);
-		double mod = -1.0;
-		if (a>3.14159) 
+		if (x < 0.0)
 		{
-			mod = 1.0;
-			a -= 3.141592654;
+			return cos(-x);
 		}
-		a = -a * .63661977237;
-		double aa = a * a;
-		return mod*( ( ( (.00015148419 * aa 
-						- .00467376557) * aa 
-						+ .07968967928) * aa 
-						- .64596371106) * aa 
-						+ 1.57079631847) * a;
+		x %= TAU;
+		if (x < PI05)
+		{
+			return bhaskara(x+PI05);
+		}
+		if (x < PI35)
+		{
+			return -bhaskara(x-PI05);
+		}
+		return bhaskara(x-PI35);
 	}
 	
 	/*
-	 * a set of magic numbers to compute the atan(x) Taylor-series
+	 * a set of magic numbers to compute the arc-tangent Taylor-series
 	 */
 	private final static float M = (float)(3.1415926535897932384626433832795 * 0.25);
 	private final static float N = (float)(3.1415926535897932384626433832795 * 0.5);
@@ -105,14 +115,14 @@ public class Approximate
 	private final static float X = (M - A - B - C);
 	
 	/**
-	 * Very fast arc-tangent approximation inspired by the Taylor-series.
+	 * Very fast arc-tangent approximation inspired by the Taylor-series. Error deviation from {@code Math.atan(x)} goes up to approximately {@code 1.14%} for large input values.
 	 * @param x - input value
 	 * @return the approximate value of {@code arctan(x)}
 	 * @since 1.0.0
 	 */
 	public static final double atan(double x) 
 	{
-		if (-1.0 < x && x < 1.0)
+		if (-1.0 <= x && x <= 1.0)
 		{
 			double xx = x * x;
 			return (((C*xx + B)*xx + A)*xx + X)*x;

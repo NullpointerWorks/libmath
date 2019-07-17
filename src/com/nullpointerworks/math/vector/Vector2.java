@@ -13,7 +13,6 @@ import com.nullpointerworks.math.random.generator.Randomizer;
  */
 public class Vector2
 {
-	//private static final float RADIAN = (float)(Math.PI / 180d);
 	private static final float MAX_VALUE = Float.MAX_VALUE;
 
 	/**

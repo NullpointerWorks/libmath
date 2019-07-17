@@ -11,9 +11,10 @@ import com.nullpointerworks.math.vector.Vector4;
 /**
  * Provides static quaternion mathematics operations. Quaternions are a number system that extends complex numbers. All operations provide a new {@code float[4]} object and do not modify the content of the input. Quaternions are represented in the format described below.
  * <pre>
- * a + bi + cj + dk
  * i^2 = j^2 = k^2 = ijk = -1
- * float[4] {real, i, j, k}</pre>
+ * 
+ * q = r + bi + cj + dk
+ * q = float[4] {real, i, j, k}</pre>
  * @since 1.0.0
  */
 public class Quaternion 

@@ -5,40 +5,17 @@
  */
 package com.nullpointerworks.math;
 
+/**
+ * Contains static member functions to allow for various integer operations. Like interpolation, min,mid,max functions etc.
+ * @since 1.0.0
+ */
 public class IntMath 
 {
-	
-	/*
-	 * returns the exponential value of a base number with the given power
-	 */
-	public static int pow(int n, int pow)
-	{
-		switch(pow)
-		{
-		case 0: return 1;
-		case 1: return n;
-		default: return n * pow(n,pow-1);
-		}
-	}
-	
-	/*
-	 * optimized integer absolute finder. fails when MIN_VALUE is used
-	 */
-	public static final int absx(int n)
-	{
-		return (n + (n >> 31)) ^ (n >> 31);
-	}
-	
 	/**
-	 * return absolute of an integer
-	 */
-	public static int abs(int x)
-	{
-		return ((x >= 0) ? x : -x);
-	}
-	
-	/*
-	 * copy an array without using clone()
+	 * Returns a reference free copy of the given array.
+	 * @param a - the integer array
+	 * @return a reference free copy of the given array
+	 * @since 1.0.0
 	 */
 	public static int[] copy(int[] a)
 	{
@@ -48,49 +25,48 @@ public class IntMath
 		return res;
 	}
 	
-	/*
-	 * lerp two integers
+	/**
+	 * Returns the power of a base number with the given exponent.
+	 * @param n - the base number
+	 * @param pow - the exponent
+	 * @return the power of a base number with the given exponent
+	 * @since 1.0.0
 	 */
-	public static int lerp(int c1, int c2, float alpha)
+	public static int pow(int n, int pow)
 	{
-		return (int)( (float)c1*(1f-alpha) + (float)c2*(alpha) );
+		if (pow == 0) return 1;
+		if (pow == 1) return n;
+		return n * pow(n,pow-1);
 	}
-	
-	/*
-	 * lerp two integers using lerp range [0-2^pow]
-	 */
-	public static int intLerp(int A, int B, int F, int pow)
-	{
-		return (A*((1<<pow)-F) + B * F) >> pow;
-	}
-	
-	/*
-	 * lerp two integers using lerp range [0-256]
-	 */
-	public static int intLerp256(int A, int B, int F)
-	{
-		return (A*(256-F) + B * F) >> 8;
-	}
-	
-	/*
-	 * lerp two integers using lerp range [0-512]
-	 */
-	public static int int512(int A, int B, int F)
-	{
-		return (A*(512-F) + B * F) >> 9;
-	}
-
-	/*
-	 * lerp two integers using lerp range [0-1024]
-	 */
-	public static int intLerp1024(int A, int B, int F)
-	{
-		return (A*(1024-F) + B * F) >> 10;
-	}
-	
 	
 	/**
-	 * returns the ceiling of a number as an integer
+	 * Optimized integer absolute function. This fails when MIN_VALUE is entered.
+	 * @param n - input value
+	 * @return the absolute value of the given integer
+	 * @since 1.0.0
+	 * @since 1.0.0
+	 */
+	public static final int absx(int n)
+	{
+		return (n + (n >> 31)) ^ (n >> 31);
+	}
+	
+	/**
+	 * Returns the absolute value of the given integer.
+	 * @param n - input value
+	 * @return the absolute value of the given integer
+	 * @since 1.0.0
+	 */
+	public static int abs(int x)
+	{
+		return ((x >= 0) ? x : -x);
+	}
+	
+	/**
+	 * Returns the ceiling of a number as an integer.
+	 * @param x - the input value
+	 * @return the ceiling of a number as an integer
+	 * @since 1.0.0
 	 */
 	public static int ceil(float x)
 	{
@@ -98,7 +74,39 @@ public class IntMath
 	}
 	
 	/**
-	 * clamp a given value between two values.
+	 * Integer based linear interpolation using {@code 2^10} as the exponent to define a precision. The interpolation factor is a value that range from {@code [0 - 1023]}.
+	 * @param A - the starting value
+	 * @param B - the end value
+	 * @param F - the interpolation factor in the range of {@code [0 - 1023]}
+	 * @return the resulting interpolant as an integer
+	 * @since 1.0.0
+	 * @see intlerp
+	 */
+	public static int lerp(int A, int B, int F)
+	{
+		return (A*(1023-F) + B * F) >> 10;
+	}
+	
+	/**
+	 * Integer based linear interpolation uses an exponent to define the stepping precision. The interpolation factor is a value that range from {@code [0 - 2^pow]}. For instance, interpolation that can utilize low precision can use a low exponent. If an exponent of {@code 8} is used then the interpolation factor {@code F} needs to be within the range of {@code 0} to {@code 255}, which is the upper range of {@code 2^8 = 256}.
+	 * @param A - the starting value
+	 * @param B - the end value
+	 * @param F - the interpolation factor in the range of {@code [0 - 2^pow]}
+	 * @param pow - exponential precision
+	 * @return the resulting interpolant as an integer
+	 * @since 1.0.0
+	 */
+	public static int lerp(int A, int B, int F, int pow)
+	{
+		return (A*((1<<pow)-F) + B * F) >> pow;
+	}
+	
+	/**
+	 * Clamps the given value of {@code x} between an lower and upper limit.
+	 * @param lower - the lower limit
+	 * @param x - the value to clamp
+	 * @param upper - the upper limit
+	 * @since 1.0.0
 	 */
 	public static int clamp(int lower, int x, int upper)
 	{
@@ -107,57 +115,75 @@ public class IntMath
 	}
 
 	/**
-	 * find the smallest number of three numbers
+	 * Returns the largest of two numbers. When the number are equal, this returns the value of {@code a}.
+	 * @param a - a number
+	 * @param b - another number
+	 * @return the largest of two numbers
+	 * @since 1.0.0
 	 */
-	public static int min(int x1,int x2,int x3)
+	public static int max(int a, int b) 
 	{
-		int x = (x1<x2)?x1:x2;
-		return (x<x3)?x:x3;
-	}
-	
-	/*
-	 * test if a value is strictly between the interval
-	 */
-	public static boolean between(int x1, int v, int x2)
-	{
-		return (x1 < v && v < x2);
-	}
-
-	/**
-	 * find the smallest number of three numbers
-	 */
-	public static int min(int x1,int x2)
-	{
-		return (x1>x2)?x2:x1;
+		return (a<b)?b:a;
 	}
 	
 	/**
-	 * find the middle number of three numbers
+	 * Returns the smallest of two numbers. When the number are equal, this returns the value of {@code a}.
+	 * @param a - a number
+	 * @param b - another number
+	 * @return the smallest of two numbers
+	 * @since 1.0.0
 	 */
-	public static int mid(int a,int b,int c)
+	public static int min(int a, int b) 
+	{
+		return (a<b)?a:b;
+	}
+	
+	/**
+	 * Returns the largest of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the largest of three numbers
+	 * @since 1.0.0
+	 */
+	public static int max(int a,int b,int c)
+	{
+		int x = (a<b)?b:a;
+		return (x<c)?c:x;
+	}
+	
+	/**
+	 * Returns the middle of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the middle of three numbers
+	 * @since 1.0.0
+	 */
+	public static float mid(int a,int b,int c)
 	{
 		return a>b ? (c>a ? a : (b>c ? b:c) ) : ( c>b ? b : (a>c ? a:c) );
 	}
 	
 	/**
-	 * find the largest number of three numbers
+	 * Returns the smallest of three numbers.
+	 * @param a - a number
+	 * @param b - another number
+	 * @param c - yet another number
+	 * @return the smallest of three numbers
+	 * @since 1.0.0
 	 */
-	public static int max(int x1,int x2,int x3)
+	public static int min(int a,int b,int c)
 	{
-		int x = (x1<x2)?x2:x1;
-		return (x<x3)?x3:x;
+		int x = (a<b)?a:b;
+		return (x<c)?x:c;
 	}
 	
 	/**
-	 * find the largest number of three numbers
-	 */
-	public static int max(int x1,int x2)
-	{
-		 return (x1<x2)?x2:x1;
-	}
-	
-	/**
-	 * round a float to an integer
+	 * Round a float to an integer.
+	 * @param x - input value
+	 * @return a float rounded to an integer
+	 * @since 1.0.0
 	 */
 	public static int round(float x)
 	{
@@ -165,10 +191,13 @@ public class IntMath
 	}
 	
 	/**
-	 * round a float to an integer
+	 * Round a double to an integer.
+	 * @param x - input value
+	 * @return a double rounded to an integer
+	 * @since 1.0.0
 	 */
 	public static int round(double x)
 	{
-		return (int)(x + 0.5f);
+		return (int)(x + 0.5);
 	}
 }
