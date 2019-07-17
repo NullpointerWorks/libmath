@@ -1,4 +1,4 @@
-package exp.nullpointerworks.math.geometry.g2;
+package exp.nullpointerworks.math.geometry.g2d;
 
 import com.nullpointerworks.math.geometry.g2d.Circle;
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;

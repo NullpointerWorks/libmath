@@ -1,4 +1,4 @@
-package exp.nullpointerworks.math.geometry.g3;
+package exp.nullpointerworks.math.geometry.g3d;
 
 import com.nullpointerworks.math.geometry.Geometry;
 

@@ -6,17 +6,19 @@
 package com.nullpointerworks.math.vector;
 
 import com.nullpointerworks.math.Approximate;
-import com.nullpointerworks.math.random.generator.Randomizer;
+import com.nullpointerworks.math.random.Randomizer;
 
 /**
  * a comprehensive 2d vector class.
+ * @since 1.0.0
  */
 public class Vector2
 {
 	private static final float MAX_VALUE = Float.MAX_VALUE;
-
+	
 	/**
 	 * 
+	 * @since 1.0.0
 	 */
 	public static float[] New(float x, float y)
 	{
@@ -25,6 +27,7 @@ public class Vector2
 	
 	/**
 	 * add two vector2 arrays
+	 * @since 1.0.0
 	 */
 	public static float[] add(float[] a, float[] b)
 	{
@@ -34,6 +37,7 @@ public class Vector2
 
 	/**
 	 * subtract two vector2 arrays
+	 * @since 1.0.0
 	 */
 	public static float[] sub(float[] a, float[] b)
 	{
@@ -43,6 +47,7 @@ public class Vector2
 	
 	/**
 	 * multiply a vector with a factor
+	 * @since 1.0.0
 	 */
 	public static float[] mul(float[] a, float f)
 	{
@@ -52,6 +57,7 @@ public class Vector2
 	
 	/**
 	 * scalar divide two vectors
+	 * @since 1.0.0
 	 */
 	public static float div(float[] a, float[] b)
 	{
@@ -62,6 +68,7 @@ public class Vector2
 	
 	/**
 	 * negate a vector
+	 * @since 1.0.0
 	 */
 	public static float[] neg(float[] a)
 	{
@@ -70,6 +77,7 @@ public class Vector2
 	
 	/**
 	 * returns a new instance of the given float[2]
+	 * @since 1.0.0
 	 */
 	public static float[] copy(float[] c) 
 	{
@@ -78,6 +86,7 @@ public class Vector2
 	
 	/**
 	 * returns a string representation of a vector
+	 * @since 1.0.0
 	 */
 	public static String toString(float[] v)
 	{
@@ -88,6 +97,7 @@ public class Vector2
 	
 	/**
 	 * add multiple vectors together
+	 * @since 1.0.0
 	 */
 	public static float[] add(float[]... r) 
 	{
@@ -100,6 +110,7 @@ public class Vector2
 	/**
 	 * project a point from a vector with a given lambda value<br>
 	 * P = A + a*lambda<br>
+	 * @since 1.0.0
 	 */
 	public static float[] projection(float[] A, float[] a, float lambda)
 	{
@@ -109,6 +120,7 @@ public class Vector2
 	/***
 	 * project a vector Q onto another vector A and returns the lambda value along A<br>
 	 * t = q*a / a*a
+	 * @since 1.0.0
 	 **/
 	public static float project(float[] q, float[] a)
 	{
@@ -119,6 +131,7 @@ public class Vector2
 	
 	/**
 	 * returns the dot product between two vectors
+	 * @since 1.0.0
 	 */
 	public static float dot(float[] a, float[] b)
 	{
@@ -127,6 +140,7 @@ public class Vector2
 	
 	/**
 	 * returns a random vector with values [0,1]
+	 * @since 1.0.0
 	 */
 	public static float[] random(Randomizer rng)
 	{
@@ -137,6 +151,7 @@ public class Vector2
 	
 	/**
 	 * lerp between two vector2 arrays
+	 * @since 1.0.0
 	 */
 	public static float[] lerp(float[] a, float[] b, float i)
 	{
@@ -147,6 +162,7 @@ public class Vector2
 	
 	/**
 	 * returns the magnitude of a vector
+	 * @since 1.0.0
 	 */
 	public static float magnitude(float[] v)
 	{
@@ -155,6 +171,7 @@ public class Vector2
 	
 	/**
 	 * returns a vector with a maximum magnitude of the given value
+	 * @since 1.0.0
 	 */
 	public static float[] limit(float[] v, float f) 
 	{
@@ -172,6 +189,7 @@ public class Vector2
 
 	/**
 	 * normalize a vector<br>
+	 * @since 1.0.0
 	 */
 	public static float[] normalize(float[] a)
 	{
@@ -185,6 +203,7 @@ public class Vector2
 	/**
 	 * vector plane lerp. Provide an origin, and two vectors that define the plane.<br>
 	 * u,v are interpolation values to get any point on the plane.
+	 * @since 1.0.0
 	 */
 	public static float[] plane(float[] O, float[] a, float[] b, float u, float v)
 	{
@@ -195,6 +214,7 @@ public class Vector2
 	
 	/**
 	 * returns the depth from the cross of the given vectors. 
+	 * @since 1.0.0
 	 */
 	public static float cross(float[] a, float[] b)
 	{
@@ -203,6 +223,7 @@ public class Vector2
 	
 	/**
 	 * returns the normal from a vector
+	 * @since 1.0.0
 	 */
 	public static float[] normal(float[] a)
 	{
@@ -211,6 +232,7 @@ public class Vector2
 	
 	/**
 	 * returns the normal from a vector multiplied by a scalar
+	 * @since 1.0.0
 	 */
 	public static float[] normal(float[] A, float a)
 	{
@@ -221,6 +243,7 @@ public class Vector2
 	 * find the intersection of A+l*a onto line B+l*b<br>
 	 * returns the lambda scalar<br>
 	 * l = ( dot(n,B) - dot(n,A) ) / dot(n,a)<br>
+	 * @since 1.0.0
 	 */
 	public static float intersect(float[] A, float[] a,
 								  float[] B, float[] b)
@@ -236,6 +259,7 @@ public class Vector2
 	/**
 	 * find the intersection of A+l*a onto line B+l*b<br>
 	 * returns both lambda scalars in vector form<br>
+	 * @since 1.0.0
 	 */
 	public static float[] intersect2(float[] A, float[] a,
 				   		   			 float[] B, float[] b)
@@ -267,6 +291,7 @@ public class Vector2
 	 * u dot v<br>
 	 * -------- = cos t<br>
 	 * |u| * |v|<br>
+	 * @since 1.0.0
 	 */
 	public static float angle(float[] u, float[] v)
 	{
@@ -280,6 +305,7 @@ public class Vector2
 	
 	/**
 	 * returns a rotated normalized vector
+	 * @since 1.0.0
 	 */
 	public static float[] rotation(float angle)
 	{
@@ -290,6 +316,7 @@ public class Vector2
 	
 	/**
 	 * rotate a vector with a given angle in radians
+	 * @since 1.0.0
 	 */
 	public static float[] rotate(float[] v, float angle)
 	{
@@ -310,6 +337,7 @@ public class Vector2
 	 * float[] n = Vector2.normalize( Vector2.normal(b) );<br>
 	 * float[] C = Vector2.projection(A, a, l);<br>
 	 * float[] c = Vector2.reflection(A, C, n);<br>
+	 * @since 1.0.0
 	 */
 	public static float[] reflection(float[] A, float[] C, float[] nn)
 	{

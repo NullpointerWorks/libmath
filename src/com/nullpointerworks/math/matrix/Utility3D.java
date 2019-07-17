@@ -212,11 +212,11 @@ public class Utility3D
 		float Yd = -Vector3.dot(Y, eye);
 		float Zd = -Vector3.dot(Z, eye);
 		
-		X = Vector.merge(X, Xd);
-		Y = Vector.merge(Y, Yd);
-		Z = Vector.merge(Z, Zd);
+		X = Vector.append(X, Xd);
+		Y = Vector.append(Y, Yd);
+		Z = Vector.append(Z, Zd);
 		
-		return new float[][]{X, Y, Z, {0f,0f,0f,1f}};
+		return new float[][]{X,Y,Z,{0f,0f,0f,1f}};
 	}
 	
 	/**

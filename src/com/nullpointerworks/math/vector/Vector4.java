@@ -5,7 +5,7 @@
  */
 package com.nullpointerworks.math.vector;
 
-import com.nullpointerworks.math.random.generator.Randomizer;
+import com.nullpointerworks.math.random.Randomizer;
 
 /**
  * float[4] vector math class<br>

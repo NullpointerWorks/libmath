@@ -8,7 +8,9 @@ package com.nullpointerworks.math.matrix;
 public class Matrix2 
 {
 	/**
-	 * creates a new null matrix
+	 * Creates a new zero matrix.
+	 * @return a new zero matrix
+	 * @since 1.0.0
 	 */
 	public static float[][] zero()
 	{

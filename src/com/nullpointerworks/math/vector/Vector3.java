@@ -6,7 +6,7 @@
 package com.nullpointerworks.math.vector;
 
 import com.nullpointerworks.math.Approximate;
-import com.nullpointerworks.math.random.generator.Randomizer;
+import com.nullpointerworks.math.random.Randomizer;
 
 public class Vector3 
 {
