@@ -5,41 +5,34 @@
  */
 package com.nullpointerworks.math.matrix;
 
-public class Matrix2 
+/**
+ * 
+ * @since 1.0.0
+ */
+public class Matrix2 implements Matrix 
 {
-	/**
-	 * Creates a new zero matrix.
-	 * @return a new zero matrix
-	 * @since 1.0.0
-	 */
-	public static float[][] zero()
+	@Override
+	public float[][] zero()
 	{
 		return new float[][]{{0f,0f}, {0f,0f}};
 	}
 	
-	/**
-	 * creates a new identity matrix
-	 */
-	public static float[][] identity()
+	@Override
+	public float[][] identity()
 	{
 		return new float[][]{{1f,0f}, {0f,1f}};
 	}
 	
-	/**
-	 * returns the transpose of the given matrix.
-	 */
-	public static float[][] transpose(float[][] mat)
+	@Override
+	public float[][] transpose(float[][] m)
 	{
-		float[] r0 = {mat[0][0],mat[1][0]};
-		float[] r1 = {mat[0][1],mat[1][1]};
+		float[] r0 = {m[0][0],m[1][0]};
+		float[] r1 = {m[0][1],m[1][1]};
 		return new float[][] {r0,r1};
 	}
 	
-	/**
-	 * multiply a matrix with a factor
-	 * returns a new matrix
-	 */
-	public static float[][] mul(float[][] m, float f)
+	@Override
+	public float[][] mul(float[][] m, float f)
 	{
 		float[] r0 = {0f,0f};
 		float[] r1 = {0f,0f};
@@ -54,7 +47,8 @@ public class Matrix2
 	 * multiply two matrices with each other.
 	 * returns the resulting matrix
 	 */
-	public static float[][] mul(float[][] m1, float[][] m2)
+	@Override
+	public float[][] mul(float[][] m1, float[][] m2)
 	{
 		float[] col0 = column(m2,0);
 		float[] col1 = column(m2,1);
@@ -72,7 +66,8 @@ public class Matrix2
 	/**
 	 * mass multiply a list of matrices with each other in the given order
 	 */
-	public static float[][] mul(float[][]... m)
+	@Override
+	public float[][] mul(float[][]... m)
 	{
 		float[][] res = identity();
 		for (float[][] matrix : m)
@@ -85,7 +80,8 @@ public class Matrix2
 	/**
 	 * returns the determinant of the given matrix
 	 */
-	public static float det(float[][] m)
+	@Override
+	public float det(float[][] m)
 	{
 		float a,b,c,d;
 		a = m[0][0];
@@ -99,7 +95,8 @@ public class Matrix2
 	 * returns the adjugate matrix.<br>
 	 * the transpose of the cofactor matrix
 	 */
-	public static float[][] adjugate(float[][] m)
+	@Override
+	public float[][] adjugate(float[][] m)
 	{
 		float a,b,c,d;
 		a = m[0][0];
@@ -113,7 +110,8 @@ public class Matrix2
 	/**
 	 * returns the inverse matrix of the given matrix
 	 */
-	public static float[][] inverse(float[][] m)
+	@Override
+	public float[][] inverse(float[][] m)
 	{
 		float a,b,c,d;
 		a = m[0][0];
@@ -127,21 +125,20 @@ public class Matrix2
 		return r;
 	}
 	
-	/**
+	/*
 	 * returns a dot product of the given float[] arrays of any length.
 	 * do not use with vectors
 	 */
-	private static float dot(float[] a, float[] b)
+	private float dot(float[] a, float[] b)
 	{
 		return a[0]*b[0] + a[1]*b[1];
 	}
 	
-	/**
+	/*
 	 * get the column of a matrix by the given index
 	 */
-	private static float[] column(float[][] matrix, int i)
+	private float[] column(float[][] matrix, int i)
 	{
 		return new float[] {matrix[0][i], matrix[1][i]};
 	}
-	
 }

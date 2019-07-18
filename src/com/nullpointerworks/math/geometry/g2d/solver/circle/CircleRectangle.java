@@ -14,6 +14,7 @@ import com.nullpointerworks.math.vector.Vector2;
 public class CircleRectangle implements IIntersectionSolver2 
 {
 	public static final CircleRectangle instance = new CircleRectangle();
+	private final Vector2 V2 = new Vector2();
 	
 	@Override
 	public boolean solve(Geometry2D A, Geometry2D B) 
@@ -39,9 +40,9 @@ public class CircleRectangle implements IIntersectionSolver2
 			float[] v0 = vertices[i];
 			float[] v1 = vertices[(i+1)%l];
 			
-			float[] v = Vector2.sub(v1, v0);
-			float[] n = Vector2.normalize( Vector2.normal(v) );
-			n = Vector2.projection(c, n, rad);
+			float[] v = V2.sub(v1, v0);
+			float[] n = V2.normalize( V2.normal(v) );
+			n = V2.project(c, n, rad);
 			
 			if (r.isInside(n)) return true;
 		}

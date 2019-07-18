@@ -6,69 +6,60 @@
 package com.nullpointerworks.math.matrix;
 
 /**
- * Provides mathematical operations for 4x4 matrices. 
- * @author Michiel Drost - nullpointerworks
+ * 
+ * @since 1.0.0
  */
-public class Matrix4 
+public class Matrix4 implements Matrix 
 {
-	/**
-	 * creates a new null matrix
-	 */
-	public static float[][] zero()
+
+	@Override
+	public float[][] zero() 
 	{
 		return new float[][]{{0f,0f,0f,0f},
-							 {0f,0f,0f,0f},
-							 {0f,0f,0f,0f},
-							 {0f,0f,0f,0f}};
+			 {0f,0f,0f,0f},
+			 {0f,0f,0f,0f},
+			 {0f,0f,0f,0f}};
 	}
-	
-	/**
-	 * creates a new identity matrix
-	 */
-	public static float[][] identity()
+
+	@Override
+	public float[][] identity() 
 	{
 		return new float[][]{{1f,0f,0f,0f},
 							 {0f,1f,0f,0f},
 							 {0f,0f,1f,0f},
 							 {0f,0f,0f,1f}};
 	}
-	
-	/**
-	 * Transpose the given 4-by-4 matrix and returns it in a new matrix.
-	 * @return the transpose of the given 4-by-4 matrix
-	 */
-	public static float[][] transpose(float[][] mat)
+
+	@Override
+	public float[][] transpose(float[][] m) 
 	{
-		float[] r0 = {mat[0][0],0f,0f,0f};
-		float[] r1 = {0f,mat[1][1],0f,0f};
-		float[] r2 = {0f,0f,mat[2][2],0f};
-		float[] r3 = {0f,0f,0f,mat[3][3]};
+		float[] r0 = {m[0][0],0f,0f,0f};
+		float[] r1 = {0f,m[1][1],0f,0f};
+		float[] r2 = {0f,0f,m[2][2],0f};
+		float[] r3 = {0f,0f,0f,m[3][3]};
 		
-		r0[1] = mat[1][0];
-		r1[0] = mat[0][1];
+		r0[1] = m[1][0];
+		r1[0] = m[0][1];
 		
-		r0[2] = mat[2][0];
-		r2[0] = mat[0][2];
+		r0[2] = m[2][0];
+		r2[0] = m[0][2];
 		
-		r0[3] = mat[3][0];
-		r3[0] = mat[0][3];
+		r0[3] = m[3][0];
+		r3[0] = m[0][3];
 		
-		r1[2] = mat[2][1];
-		r2[1] = mat[1][2];
+		r1[2] = m[2][1];
+		r2[1] = m[1][2];
 		
-		r1[3] = mat[3][1];
-		r3[1] = mat[1][3];
+		r1[3] = m[3][1];
+		r3[1] = m[1][3];
 		
-		r2[3] = mat[3][2];
-		r3[2] = mat[2][3];
+		r2[3] = m[3][2];
+		r3[2] = m[2][3];
 		return new float[][] {r0,r1,r2,r3};
 	}
-	
-	/**
-	 * multiply a matrix with a factor
-	 * returns a new matrix
-	 */
-	public static float[][] mul(float[][] m, float f)
+
+	@Override
+	public float[][] mul(float[][] m, float f) 
 	{
 		float[] r0 = {0f,0f,0f,0f};
 		float[] r1 = {0f,0f,0f,0f};
@@ -96,12 +87,9 @@ public class Matrix4
 		r3[3] = m[3][3]*f;
 		return new float[][] {r0,r1,r2,r3};
 	}
-	
-	/**
-	 * multiply two matrices with each other.
-	 * returns the resulting matrix
-	 */
-	public static float[][] mul(float[][] m1, float[][] m2)
+
+	@Override
+	public float[][] mul(float[][] m1, float[][] m2) 
 	{
 		float[] col0 = column(m2,0);
 		float[] col1 = column(m2,1);
@@ -139,11 +127,9 @@ public class Matrix4
 		r3[3] = dot( row3 , col3 );
 		return new float[][] {r0,r1,r2,r3};
 	}
-	
-	/**
-	 * mass multiply a list of matrices with each other in the given order
-	 */
-	public static float[][] mul(float[][]... m)
+
+	@Override
+	public float[][] mul(float[][]... m) 
 	{
 		float[][] res = identity();
 		for (float[][] matrix : m)
@@ -152,11 +138,9 @@ public class Matrix4
 		}
 		return res;
 	}
-	
-	/**
-	 * returns the determinant of the given matrix
-	 */
-	public static float det(float[][] m)
+
+	@Override
+	public float det(float[][] m) 
 	{
 		float[] m0 = m[0];
 		float[] m1 = m[1];
@@ -179,11 +163,8 @@ public class Matrix4
 		return (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
 	}
 
-	/**
-	 * returns the adjugate matrix.<br>
-	 * the transpose of the cofactor matrix
-	 */
-	public static float[][] adjugate(float[][] m)
+	@Override
+	public float[][] adjugate(float[][] m) 
 	{
 		float[] m0 = m[0];
 		float[] m1 = m[1];
@@ -232,10 +213,8 @@ public class Matrix4
 		return new float[][] {r0,r1,r2,r3};
 	}
 
-	/**
-	 * returns the inverse matrix of the given matrix
-	 */
-	public static float[][] inverse(float[][] m)
+	@Override
+	public float[][] inverse(float[][] m) 
 	{
 		float[] m0 = m[0];
 		float[] m1 = m[1];
@@ -285,19 +264,19 @@ public class Matrix4
 		return new float[][] {r0,r1,r2,r3};
 	}
 	
-	/**
+	/*
 	 * returns a dot product of the given float[] arrays of any length.
 	 * do not use with vectors
 	 */
-	private static float dot(float[] a, float[] b)
+	private float dot(float[] a, float[] b)
 	{
 		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
 	}
 	
-	/**
+	/*
 	 * get the column of a matrix by the given index
 	 */
-	private static float[] column(float[][] matrix, int i)
+	private float[] column(float[][] matrix, int i)
 	{
 		return new float[] {matrix[0][i],
 							matrix[1][i],

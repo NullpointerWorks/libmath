@@ -10,6 +10,8 @@ import com.nullpointerworks.math.vector.Vector2;
 
 public class Triangle extends Geometry2D
 {
+	private final Vector2 V2 = new Vector2();
+	
 	public float[] v1,v2,v3;
 	private final int X = 0;
 	private final int Y = 1;
@@ -20,16 +22,16 @@ public class Triangle extends Geometry2D
 					float x2, float y2,
 					float x3, float y3)
 	{
-		v1 = Vector2.New(x1, y1);
-		v2 = Vector2.New(x2, y2);
-		v3 = Vector2.New(x3, y3);
+		v1 = V2.New(x1, y1);
+		v2 = V2.New(x2, y2);
+		v3 = V2.New(x3, y3);
 	}
 	
 	public Triangle(float[] p1, float[] p2, float[] p3)
 	{
-		v1 = Vector2.copy(p1);
-		v2 = Vector2.copy(p2);
-		v3 = Vector2.copy(p3);
+		v1 = V2.copy(p1);
+		v2 = V2.copy(p2);
+		v3 = V2.copy(p3);
 	}
 	
 	@Override

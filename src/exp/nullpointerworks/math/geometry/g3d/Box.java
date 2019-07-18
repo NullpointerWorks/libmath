@@ -73,12 +73,14 @@ public class Box extends Geometry3D
 	
 	// ==========================================
 	
+	private final Vector3 V3 = new Vector3();
+	
 	private void recalculate()
 	{
-		float[] v0 = Vector3.New(x, y, z);
-		float[] v1 = Vector3.New(x+w, y, z);
-		float[] v2 = Vector3.New(x, y+h, z);
-		float[] v3 = Vector3.New(x, y, z+d);
+		float[] v0 = V3.New(x, y, z);
+		float[] v1 = V3.New(x+w, y, z);
+		float[] v2 = V3.New(x, y+h, z);
+		float[] v3 = V3.New(x, y, z+d);
 		
 		t1 = new Tetra(v0,v1,v2,v3);
 		

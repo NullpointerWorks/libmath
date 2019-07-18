@@ -3,32 +3,37 @@
  * Nullpointer Works (2019)
  * Use is subject to license terms.
  */
-package com.nullpointerworks.math.matrix;
+package com.nullpointerworks.math.utility;
 
 import static com.nullpointerworks.math.FloatMath.RADIAN;
 
 import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.Quaternion;
-import com.nullpointerworks.math.vector.Vector;
+import com.nullpointerworks.math.vector.VectorN;
+import com.nullpointerworks.math.matrix.Matrix4;
 import com.nullpointerworks.math.vector.Vector3;
 import com.nullpointerworks.math.vector.Vector4;
 
-public class Utility3D 
+public class Utility3D implements Utility
 {
+	private static final Matrix4 M4 = new Matrix4();
+	private static final Vector3 V3 = new Vector3();
+	private static final Vector4 V4 = new Vector4();
+	
 	/**
 	 * mass multiply an array of float[4] arrays with the given matrix.
 	 * useful for applying a matrix to many vertices in one pass
 	 */
-	public static float[][] transform(float[][] m, float[][] v)
+	public float[][] transform(float[][] m, float[][] v)
 	{
 		int l = v.length;
 		float[][] res = new float[l][4];
 		for (int i=0; i<l;i++)
 		{
-			res[i][0] = Vector4.dot(m[0], v[i]);
-			res[i][1] = Vector4.dot(m[1], v[i]);
-			res[i][2] = Vector4.dot(m[2], v[i]);
-			res[i][3] = Vector4.dot(m[3], v[i]);
+			res[i][0] = V4.dot(m[0], v[i]);
+			res[i][1] = V4.dot(m[1], v[i]);
+			res[i][2] = V4.dot(m[2], v[i]);
+			res[i][3] = V4.dot(m[3], v[i]);
 		}
 		return res;
 	}
@@ -36,38 +41,20 @@ public class Utility3D
 	/**
 	 * multiply a float[4] array with the given matrix.
 	 */
-	public static float[] transform(float[][] m, float[] v)
+	public float[] transform(float[][] m, float[] v)
 	{
 		float[] res = new float[4];
-		res[0] = Vector4.dot(m[0], v);
-		res[1] = Vector4.dot(m[1], v);
-		res[2] = Vector4.dot(m[2], v);
-		res[3] = Vector4.dot(m[3], v);
+		res[0] = V4.dot(m[0], v);
+		res[1] = V4.dot(m[1], v);
+		res[2] = V4.dot(m[2], v);
+		res[3] = V4.dot(m[3], v);
 		return res;
-	}
-
-	/**
-	 * Special screenspace transform that handles x,y and z elements, but not w
-	 */
-	public static final void transform3(float[][] m, float[] v)
-	{
-		v[0] = dot3(m[0], v);
-		v[1] = dot3(m[1], v);
-		v[2] = dot3(m[2], v);
-	}
-	
-	/**
-	 * Special dot product that ignores the vector's W element
-	 */
-	private static float dot3(float[] a, float[] b)
-	{
-		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
 	}
 	
 	/**
 	 * Creates a translation matrix
 	 */
-	public static float[][] translate(float x,float y,float z)
+	public float[][] translate(float x,float y,float z)
 	{
 		return new float[][]{{1f,0f,0f,x},
 							 {0f,1f,0f,y},
@@ -75,7 +62,7 @@ public class Utility3D
 							 {0f,0f,0f,1f}};
 	}
 	
-	public static float[][] translate(float[] v)
+	public float[][] translate(float[] v)
 	{
 		return new float[][]{{1f,0f,0f,v[0]},
 							 {0f,1f,0f,v[1]},
@@ -86,14 +73,15 @@ public class Utility3D
 	/**
 	 * Creates a scalar matrix
 	 */
-	public static float[][] scale(float sx,float sy,float sz)
+	public float[][] scale(float sx,float sy,float sz)
 	{
 		return new float[][]{{sx,0f,0f,0f},
 							 {0f,sy,0f,0f},
 							 {0f,0f,sz,0f},
 							 {0f,0f,0f,1f}};
 	}
-	public static float[][] scale(float[] s)
+	
+	public float[][] scale(float[] s)
 	{
 		return new float[][]{{s[0],0f,0f,0f},
 							 {0f,s[1],0f,0f},
@@ -104,7 +92,7 @@ public class Utility3D
 	/**
 	 * Returns a screen-space correction matrix
 	 */
-	public static float[][] correction(float width, float height)
+	public float[][] correction(float width, float height)
 	{
 		float hw = width*0.5f;
 		float hh = height*0.5f;
@@ -118,7 +106,7 @@ public class Utility3D
 	/**
 	 * Create a counter screen-space transformation matrix
 	 */
-	public static float[][] counter(float width, float height)
+	public float[][] counter(float width, float height)
 	{
 		float asp = width / height;
 		float m00 = 2f / height;
@@ -128,13 +116,15 @@ public class Utility3D
 							 { 0f,  0f, 0f, 1f}};
 	}
 	
+	// =========================================================
+	
 	/**
 	 * creates a TGN tangent-space matrix to transform normal map vectors<br>
-	 * provide the tangent, bitangent and normal vectors of the plane in question
+	 * provide the tangent, bi-tangent and normal vectors of the plane in question
 	 */
-	public static float[][] tangent(float[] tan, float[] bitan, float[] norm)
+	public float[][] tangent(float[] tan, float[] bitan, float[] norm)
 	{
-		float[][] tanm = Matrix4.zero();
+		float[][] tanm = M4.zero();
 		
 		tanm[0][0] = tan[0];
 		tanm[1][0] = tan[1];
@@ -157,9 +147,9 @@ public class Utility3D
 	/**
 	 * Rotation done with quaternions. Returns a matrix with the result
 	 */
-	public static float[][] rotation(float[] v3_axes, float angle)
+	public float[][] rotation(float[] v3_axes, float angle)
 	{
-		float[] v3 = Vector3.normalize(v3_axes);
+		float[] v3 = V3.normalize(v3_axes);
 		float[] dt = Quaternion.rotation(v3, angle);
 		return Quaternion.matrix(dt);
 	}
@@ -167,7 +157,7 @@ public class Utility3D
 	/**
 	 * get the rotation matrix from the given rotations
 	 */
-	public static float[][] rotation(float roll, float pitch, float yaw)
+	public float[][] rotation(float roll, float pitch, float yaw)
 	{
 		float cos = (float) Approximate.cos(roll);
 		float sin = (float) Approximate.sin(roll);
@@ -191,30 +181,48 @@ public class Utility3D
 									 	{ 0f,sin, cos, 0f},
 									 	{ 0f, 0f,  0f, 1f}};
 		
-		return Matrix4.mul(mYaw, mPitch, mRoll);
+		return M4.mul(mYaw, mPitch, mRoll);
+	}
+
+	/**
+	 * Special screenspace transform that handles x,y and z elements, but not w
+	 */
+	public final void transform3(float[][] m, float[] v)
+	{
+		v[0] = dot3(m[0], v);
+		v[1] = dot3(m[1], v);
+		v[2] = dot3(m[2], v);
+	}
+	
+	/**
+	 * Special dot product that ignores the vector's W element
+	 */
+	private float dot3(float[] a, float[] b)
+	{
+		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
 	}
 
 	/**
 	 * creates a look-at transform matrix
 	 */
-	public static float[][] lookAt(float[] eye, float[] target, float[] up)
+	public float[][] lookAt(float[] eye, float[] target, float[] up)
 	{
-		float[] Z = Vector3.sub(eye, target);
-		Z = Vector3.normalize(Z);
+		float[] Z = V3.sub(eye, target);
+		Z = V3.normalize(Z);
 		
-		float[] X = Vector3.cross(up, Z);
-		float[] Y = Vector3.cross(Z, X);
+		float[] X = V3.cross(up, Z);
+		float[] Y = V3.cross(Z, X);
 		
-		X = Vector3.normalize(X);
-		Y = Vector3.normalize(Y);
+		X = V3.normalize(X);
+		Y = V3.normalize(Y);
 		
-		float Xd = -Vector3.dot(X, eye);
-		float Yd = -Vector3.dot(Y, eye);
-		float Zd = -Vector3.dot(Z, eye);
+		float Xd = -V3.dot(X, eye);
+		float Yd = -V3.dot(Y, eye);
+		float Zd = -V3.dot(Z, eye);
 		
-		X = Vector.append(X, Xd);
-		Y = Vector.append(Y, Yd);
-		Z = Vector.append(Z, Zd);
+		X = VectorN.append(X, Xd);
+		Y = VectorN.append(Y, Yd);
+		Z = VectorN.append(Z, Zd);
 		
 		return new float[][]{X,Y,Z,{0f,0f,0f,1f}};
 	}
@@ -222,7 +230,7 @@ public class Utility3D
 	/**
 	 * Creates a perspective homogeneous transform matrix
 	 */
-	public static float[][] perspective(float fov, float aspect, float near, float far)
+	public float[][] perspective(float fov, float aspect, float near, float far)
 	{
 		float t = (float)Math.tan((double)(RADIAN * fov * 0.5f));
         float n11 = 1f / (t * aspect);
@@ -238,7 +246,7 @@ public class Utility3D
 	/**
 	 * Creates an orthographic transform matrix
 	 */
-	public static float[][] orthographic(float fov, float aspect, float near, float far) 
+	public float[][] orthographic(float fov, float aspect, float near, float far) 
 	{
         float t = near * (float)Math.tan((double)(RADIAN * fov * 0.5f));
         float r = t * aspect;
@@ -256,7 +264,7 @@ public class Utility3D
 	/**
 	 * creates an orthographic transform matrix for lightbox transformation
 	 */
-	public static float[][] lightbox_orthographic(float width, float height, float length)
+	public float[][] lightbox_orthographic(float width, float height, float length)
 	{
 		float n11 = 2f / width;
 		float n22 = 2f / height;

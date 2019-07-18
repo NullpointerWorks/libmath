@@ -172,6 +172,9 @@ public class Quaternion
 		return new float[] {q[0],-q[1],-q[2],-q[3]};
 	}
 	
+	private static final Vector3 V3 = new Vector3();
+	private static final Vector4 V4 = new Vector4();
+	
 	/**
 	 * Normalize a quaternion.
 	 * @param q - the quaternion to normalize
@@ -184,7 +187,7 @@ public class Quaternion
 		float y = q[1];
 		float z = q[2];
 		float w = q[3];
-		float m = Vector4.magnitude(q);
+		float m = V4.magnitude(q);
 		float invm = 1f / m;
 		return new float[]{x*invm, y*invm, z*invm, w*invm};
 	}
@@ -200,7 +203,7 @@ public class Quaternion
 	{
 		float sin = (float)Approximate.sin(angle*0.5f);
 		float cos = (float)Approximate.cos(angle*0.5f);
-		return fromVector3(cos, Vector3.mul(N,sin) );
+		return fromVector3(cos, V3.mul(N,sin) );
 	}
 	
 	/**

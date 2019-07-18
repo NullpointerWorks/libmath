@@ -14,7 +14,7 @@ import com.nullpointerworks.math.vector.Vector2;
 public class CircleTriangle implements IIntersectionSolver2 
 {
 	public static final CircleTriangle instance = new CircleTriangle();
-	
+	private final Vector2 V2 = new Vector2();
 	@Override
 	public boolean solve(Geometry2D A, Geometry2D B) 
 	{
@@ -25,7 +25,7 @@ public class CircleTriangle implements IIntersectionSolver2
 		float[] c = {cir.x, cir.y};
 		float[][] vrt = {t.v1, t.v2, t.v3};
 		
-		boolean hand = Vector2.cross( Vector2.sub(vrt[1], vrt[0]), Vector2.sub(vrt[2], vrt[0]) ) > 0f;
+		boolean hand = V2.cross( V2.sub(vrt[1], vrt[0]), V2.sub(vrt[2], vrt[0]) )[2] > 0f;
 		
 		if (hand)
 		{
@@ -39,9 +39,9 @@ public class CircleTriangle implements IIntersectionSolver2
 			if (cir.isInside(vrt[i])) return true;
 			float[] v0 = vrt[i];
 			float[] v1 = vrt[(i+1)%l];
-			float[] v = Vector2.sub(v1, v0);
-			v = Vector2.normalize( Vector2.normal(v) );
-			v = Vector2.projection(c, v, rad);
+			float[] v = V2.sub(v1, v0);
+			v = V2.normalize( V2.normal(v) );
+			v = V2.project(c, v, rad);
 			if (t.isInside(v)) return true;
 		}
 		return false;

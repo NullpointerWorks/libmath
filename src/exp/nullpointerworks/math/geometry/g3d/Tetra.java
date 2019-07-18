@@ -4,6 +4,8 @@ import com.nullpointerworks.math.vector.Vector3;
 
 public class Tetra extends Geometry3D
 {
+	private final Vector3 V3 = new Vector3();
+	
 	// location vertices
 	private float[] a;
 	private float[] b;
@@ -36,11 +38,11 @@ public class Tetra extends Geometry3D
 	@Override
 	public float volume()
 	{
-		float[] f1 = Vector3.sub(a, d);
-		float[] f2 = Vector3.sub(b, d);
-		float[] f3 = Vector3.sub(c, d);
-		float[] cross = Vector3.cross(f2, f3);
-		float dot = Math.abs( Vector3.dot(f1, cross) );
+		float[] f1 = V3.sub(a, d);
+		float[] f2 = V3.sub(b, d);
+		float[] f3 = V3.sub(c, d);
+		float[] cross = V3.cross(f2, f3);
+		float dot = Math.abs( V3.dot(f1, cross) );
 		return dot / 6f;
 	}
 

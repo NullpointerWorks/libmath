@@ -72,12 +72,14 @@ public class Rectangle extends Geometry2D
 	
 	// ==========================================
 	
+	private final Vector2 V2 = new Vector2();
+	
 	private void recalculate()
 	{
-		float[] v0 = Vector2.New(x, y);
-		float[] v1 = Vector2.New(x+w, y);
-		float[] v2 = Vector2.New(x+w, y+h);
-		float[] v3 = Vector2.New(x, y+h);
+		float[] v0 = V2.New(x, y);
+		float[] v1 = V2.New(x+w, y);
+		float[] v2 = V2.New(x+w, y+h);
+		float[] v3 = V2.New(x, y+h);
 		
 		t1 = new Triangle(v0,v1,v2);
 		t2 = new Triangle(v2,v3,v0);

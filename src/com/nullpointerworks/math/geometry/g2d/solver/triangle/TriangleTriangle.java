@@ -43,6 +43,8 @@ public class TriangleTriangle implements IIntersectionSolver2
 		return new float[] {t1, t2};
 	}
 	
+	private final Vector2 V2 = new Vector2();
+	
 	@Override
 	public boolean solve(Geometry2D gA, Geometry2D gB) 
 	{
@@ -66,13 +68,13 @@ public class TriangleTriangle implements IIntersectionSolver2
 		while (j<3)
 		{
 			float[] A = poly_a[j];
-			float[] a = Vector2.sub(poly_a[(j+1)%3], A);
+			float[] a = V2.sub(poly_a[(j+1)%3], A);
 			
 			int i=0;
 			while (i<3)
 			{
 				float[] B = poly_b[i];
-				float[] b = Vector2.sub(poly_b[(i+1)%3], B);
+				float[] b = V2.sub(poly_b[(i+1)%3], B);
 				
 				float[] l12 = lambda(A,a, B,b);
 				float t1 = l12[X];

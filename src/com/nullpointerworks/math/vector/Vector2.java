@@ -9,177 +9,114 @@ import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.random.Randomizer;
 
 /**
- * a comprehensive 2d vector class.
+ * 
  * @since 1.0.0
  */
-public class Vector2
+public class Vector2 implements Vector 
 {
-	private static final float MAX_VALUE = Float.MAX_VALUE;
+	public static Vector2 New() {return new Vector2();}
 	
-	/**
-	 * 
-	 * @since 1.0.0
-	 */
-	public static float[] New(float x, float y)
+	@Override
+	public float[] New(float... v)
 	{
-		return new float[]{x,y};
+		return new float[] {v[0],v[1]};
 	}
-	
-	/**
-	 * add two vector2 arrays
-	 * @since 1.0.0
-	 */
-	public static float[] add(float[] a, float[] b)
+
+	@Override
+	public float[] add(float[] a, float[] b)
 	{
 		return new float[]{	a[0]+b[0],
 							a[1]+b[1]};
 	}
 
-	/**
-	 * subtract two vector2 arrays
-	 * @since 1.0.0
-	 */
-	public static float[] sub(float[] a, float[] b)
-	{
-		return new float[]{	a[0]-b[0],
-							a[1]-b[1]};
-	}
-	
-	/**
-	 * multiply a vector with a factor
-	 * @since 1.0.0
-	 */
-	public static float[] mul(float[] a, float f)
-	{
-		return new float[]{	a[0]*f,
-							a[1]*f};
-	}
-	
-	/**
-	 * scalar divide two vectors
-	 * @since 1.0.0
-	 */
-	public static float div(float[] a, float[] b)
-	{
-		float aDot = dot(a,b);
-		float bDot = dot(b,b);
-		return aDot / bDot;
-	}
-	
-	/**
-	 * negate a vector
-	 * @since 1.0.0
-	 */
-	public static float[] neg(float[] a)
-	{
-		return new float[]{-a[0], -a[1]};
-	}
-	
-	/**
-	 * returns a new instance of the given float[2]
-	 * @since 1.0.0
-	 */
-	public static float[] copy(float[] c) 
-	{
-		return new float[] {c[0],c[1]};
-	}
-	
-	/**
-	 * returns a string representation of a vector
-	 * @since 1.0.0
-	 */
-	public static String toString(float[] v)
-	{
-		return "x:"+v[0]+" y:"+v[1];
-	}
-	
-	// =========================================================
-	
-	/**
-	 * add multiple vectors together
-	 * @since 1.0.0
-	 */
-	public static float[] add(float[]... r) 
+	@Override
+	public float[] add(float[]... r) 
 	{
 		float[] in = {0f,0f};
 		for (float[] v : r)
 			in = add(in,v);
 		return in;
 	}
-	
-	/**
-	 * project a point from a vector with a given lambda value<br>
-	 * P = A + a*lambda<br>
-	 * @since 1.0.0
-	 */
-	public static float[] projection(float[] A, float[] a, float lambda)
+
+	@Override
+	public float[] sub(float[] a, float[] b)
 	{
-		return add(A, mul(a, lambda) );
+		return new float[]{	a[0]-b[0],
+							a[1]-b[1]};
 	}
-	
-	/***
-	 * project a vector Q onto another vector A and returns the lambda value along A<br>
-	 * t = q*a / a*a
-	 * @since 1.0.0
-	 **/
-	public static float project(float[] q, float[] a)
+
+	@Override
+	public float[] mul(float[] a, float f)
 	{
-		float qa = dot(q,a);
-		float aa = dot(a,a);
-		return qa/aa;
+		return new float[]{	a[0]*f,
+							a[1]*f};
 	}
-	
-	/**
-	 * returns the dot product between two vectors
-	 * @since 1.0.0
-	 */
-	public static float dot(float[] a, float[] b)
+
+	@Override
+	public float div(float[] a, float[] b)
+	{
+		float n = dot(a,b);
+		float d = dot(b,b);
+		return n / d;
+	}
+
+	@Override
+	public float dot(float[] a, float[] b)
 	{
 		return a[0]*b[0] + a[1]*b[1];
 	}
-	
-	/**
-	 * returns a random vector with values [0,1]
-	 * @since 1.0.0
-	 */
-	public static float[] random(Randomizer rng)
+
+	@Override
+	public float[] neg(float[] a)
 	{
-		float x = (float)(rng._double()*2d - 1d);
-		float y = (float)(rng._double()*2d - 1d);
+		return new float[]{-a[0], -a[1]};
+	}
+
+	@Override
+	public float[] copy(float[] c) 
+	{
+		float[] v = new float[2];
+		v[0] = c[0];
+		v[1] = c[1];
+		return v;
+	}
+
+	@Override
+	public String print(float[] v)
+	{
+		return "x:"+v[0]+" y:"+v[1];
+	}
+
+	@Override
+	public float[] random(Randomizer rng)
+	{
+		float x = rng._float();
+		float y = rng._float();
 		return new float[] {x, y};
 	}
-	
-	/**
-	 * lerp between two vector2 arrays
-	 * @since 1.0.0
-	 */
-	public static float[] lerp(float[] a, float[] b, float i)
+
+	@Override
+	public float[] lerp(float[] a, float[] b, float i)
 	{
 		float j = 1f-i;
 		return new float[]{ a[0]*j + b[0]*i,
 							a[1]*j + b[1]*i};
 	}
-	
-	/**
-	 * returns the magnitude of a vector
-	 * @since 1.0.0
-	 */
-	public static float magnitude(float[] v)
+
+	@Override
+	public float magnitude(float[] v)
 	{
 		return (float) StrictMath.sqrt( dot(v,v) );
 	}
-	
-	/**
-	 * returns a vector with a maximum magnitude of the given value
-	 * @since 1.0.0
-	 */
-	public static float[] limit(float[] v, float f) 
+
+	@Override
+	public float[] limit(float[] v, float f) 
 	{
 		float[] c = copy(v);
 		float m = magnitude(c);
 		if (m > f)
 		{
-			if (m == 0f) m = 0.0001f;
+			if (m == 0f) m = 0.00001f;
 			float invm = f / m;
 			c[0] = c[0]*invm;
 			c[1] = c[1]*invm;
@@ -187,11 +124,8 @@ public class Vector2
 		return c;
 	}
 
-	/**
-	 * normalize a vector<br>
-	 * @since 1.0.0
-	 */
-	public static float[] normalize(float[] a)
+	@Override
+	public float[] normalize(float[] a)
 	{
 		float x = a[0];
 		float y = a[1];
@@ -201,52 +135,49 @@ public class Vector2
 	}
 	
 	/**
-	 * vector plane lerp. Provide an origin, and two vectors that define the plane.<br>
-	 * u,v are interpolation values to get any point on the plane.
-	 * @since 1.0.0
+	 * 
 	 */
-	public static float[] plane(float[] O, float[] a, float[] b, float u, float v)
+	@Override
+	public float[] cross(float[] a, float[] b) 
+	{
+		return new float[] {0f,0f, a[0]*b[1]-a[1]*b[0] };
+	}
+
+	@Override
+	public float[] planar(float[] O, float[] a, float[] b, float u, float v)
 	{
 		float x = O[0] + a[0]*u + b[0]*v;
 		float y = O[1] + a[1]*u + b[1]*v;
 		return new float[] {x,y};
 	}
 	
-	/**
-	 * returns the depth from the cross of the given vectors. 
-	 * @since 1.0.0
-	 */
-	public static float cross(float[] a, float[] b)
+	@Override
+	public float[] project(float[] A, float[] a, float lambda)
 	{
-		return a[0]*b[1]-a[1]*b[0];
+		return add(A, mul(a, lambda) );
 	}
 	
+	// ======================================================
+	
 	/**
-	 * returns the normal from a vector
+	 * Returns the normal from {@code a}.
+	 * @param a - the base vector
+	 * @return the normal from {@code a}
 	 * @since 1.0.0
 	 */
-	public static float[] normal(float[] a)
+	public float[] normal(float[] a)
 	{
 		return new float[]{-a[1],a[0]};
 	}
 	
 	/**
-	 * returns the normal from a vector multiplied by a scalar
+	 * Finds the intersection of {@code A+l*a} onto line {@code B+l*b}. The intersection is found with the following formula:
+	 * <pre>l = ( dot(n,B) - dot(n,A) ) / dot(n,a)</pre>
+	 * @return the lambda scalar
 	 * @since 1.0.0
 	 */
-	public static float[] normal(float[] A, float a)
-	{
-		return new float[]{A[1]*-a, A[0]*a};
-	}
-	
-	/**
-	 * find the intersection of A+l*a onto line B+l*b<br>
-	 * returns the lambda scalar<br>
-	 * l = ( dot(n,B) - dot(n,A) ) / dot(n,a)<br>
-	 * @since 1.0.0
-	 */
-	public static float intersect(float[] A, float[] a,
-								  float[] B, float[] b)
+	public float intersect(float[] A, float[] a,
+						   float[] B, float[] b)
 	{
 		float[] n 	= normal(b);
 		float denom = dot(n,a);
@@ -257,7 +188,7 @@ public class Vector2
 	}
 	
 	/**
-	 * find the intersection of A+l*a onto line B+l*b<br>
+	 * Finds the intersection of {@code A+l*a} onto line {@code B+l*b}. The intersection is returned as a vector
 	 * returns both lambda scalars in vector form<br>
 	 * @since 1.0.0
 	 */
@@ -286,14 +217,18 @@ public class Vector2
 		
 		return new float[] {t1, t2};
 	}
+
+	final float MAX_VALUE = Float.MAX_VALUE;
 	
-	/** find the angle in radians between two vectors<br>
-	 * u dot v<br>
-	 * -------- = cos t<br>
-	 * |u| * |v|<br>
+	/** 
+	 * Finds the angle in radians between two vectors.
+	 * <pre>
+	 *  u dot v
+	 * -------- = cos(t)
+	 * |u| * |v|</pre>
 	 * @since 1.0.0
 	 */
-	public static float angle(float[] u, float[] v)
+	public float angle(float[] u, float[] v)
 	{
 		float magU = (float) Math.sqrt( dot(u,u) );
 		float magV = (float) Math.sqrt( dot(v,v) );
@@ -315,35 +250,23 @@ public class Vector2
 	}
 	
 	/**
-	 * rotate a vector with a given angle in radians
-	 * @since 1.0.0
-	 */
-	public static float[] rotate(float[] v, float angle)
-	{
-		float cs = (float)Approximate.cos(angle);
-		float sn = (float)Approximate.sin(angle);
-		return new float[]{ cs*v[0] - sn*v[1],
-							sn*v[0] + cs*v[1]};
-	}
-	
-	/**
 	 * returns the reflection vector from a given vector of incidence.<br>
 	 * A  = position of vector of incidence<br>
 	 * C  = line intersection position<br>
 	 * nn = normalized normal from vector w<br>
 	 * <br>
-	 * example usage from a given two vectors A+a*l and B+b*l;<br>
-	 * float l = Vector2.intersect(A, a, B, b);<br>
-	 * float[] n = Vector2.normalize( Vector2.normal(b) );<br>
-	 * float[] C = Vector2.projection(A, a, l);<br>
-	 * float[] c = Vector2.reflection(A, C, n);<br>
+	 * Example usage from a given two vectors A+a*l and B+b*l;<br>
+	 * <pre>
+	 * float l   = intersect(A, a, B, b);
+	 * float[] n = normalize( normal(b) );
+	 * float[] C = projection(A, a, l);
+	 * float[] c = reflection(A, C, n);</pre>
 	 * @since 1.0.0
 	 */
-	public static float[] reflection(float[] A, float[] C, float[] nn)
+	public float[] reflection(float[] A, float[] C, float[] nn)
 	{
 		float u 	= dot(nn, sub(A, C));
-		float[] P	= projection(C, nn, u+u);
+		float[] P	= project(C, nn, u+u);
 		return sub(P, A);
 	}
-	
 }
