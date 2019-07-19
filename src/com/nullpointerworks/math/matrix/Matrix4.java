@@ -446,9 +446,9 @@ public class Matrix4 implements Matrix
 	
 	/**
 	 * Creates a rotation matrix by passing the angles for each axes. This method applies the Euler's method of combining three rotation matrices which makes it vulnerable to Gimbal lock. This method uses the approximation library for fast computation of sine and cosine.
-	 * @param roll - 
-	 * @param pitch - 
-	 * @param yaw - 
+	 * @param roll - rotation around the z axes, angle in radians
+	 * @param pitch - rotation around the y axes, angle in radians
+	 * @param yaw - rotation around the x axes, angle in radians
 	 * @return a rotation matrix
 	 * @since 1.0.0
 	 * @see Approximate
@@ -479,35 +479,9 @@ public class Matrix4 implements Matrix
 		
 		return mul(mYaw, mPitch, mRoll);
 	}
-
-	/**
-	 * Special screen-space transform that handles x,y and z elements, but not w.
-	 * @param 
-	 * @param 
-	 * @return 
-	 * @since 1.0.0
-	 */
-	public void transform3(float[][] m, float[] v)
-	{
-		v[0] = dot3(m[0], v);
-		v[1] = dot3(m[1], v);
-		v[2] = dot3(m[2], v);
-	}
 	
 	/**
-	 * Special dot product that ignores the vector's W element
-	 * @param 
-	 * @param 
-	 * @return 
-	 * @since 1.0.0
-	 */
-	private float dot3(float[] a, float[] b)
-	{
-		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
-	}
-	
-	/**
-	 * creates a look-at transform matrix
+	 * Creates a look-at transform matrix
 	 * @param 
 	 * @param 
 	 * @param 
@@ -599,5 +573,31 @@ public class Matrix4 implements Matrix
 							 { 0f,n22,  0f, 0f},
 							 { 0f, 0f,-n33, 0f},
 							 { 0f, 0f,  0f, 1f}};
+	}
+
+	/**
+	 * Special screen-space transform that handles x,y and z elements, but not w.
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
+	 */
+	public void transform3(float[][] m, float[] v)
+	{
+		v[0] = dot3(m[0], v);
+		v[1] = dot3(m[1], v);
+		v[2] = dot3(m[2], v);
+	}
+	
+	/**
+	 * Special dot product that ignores the vector's W element
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
+	 */
+	private float dot3(float[] a, float[] b)
+	{
+		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
 	}
 }
