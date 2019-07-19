@@ -110,18 +110,18 @@ public interface Vector
 	float[] lerp(float[] a, float[] b, float i);
 	
 	/**
-	 * 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Returns a vector the point away perpendicular from the plane the two input vectors define. The two input vectors are assumed to originate from the same source vector. Only in 3 and 7 dimensions do cross products have a meaningful answer. Note: this method may not behave consistent among different implementations of the {@code Vector} interface.
+	 * @param a - a vector
+	 * @param b - another vector
+	 * @return the cross product vector
 	 * @since 1.0.0
 	 */
 	float[] cross(float[] a, float[] b);
 	
 	/**
-	 * 
-	 * @param 
-	 * @return 
+	 * Returns the length, or magnitude, of the provided vector.
+	 * @param v - a vector
+	 * @return the magnitude of the provided vector
 	 * @since 1.0.0
 	 */
 	float magnitude(float[] v);
