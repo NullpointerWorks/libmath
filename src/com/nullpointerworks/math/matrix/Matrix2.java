@@ -6,7 +6,7 @@
 package com.nullpointerworks.math.matrix;
 
 /**
- * 
+ * A 2 dimensional implementation of the {@code Matrix} interface. This class contains various 2-by-2 matrix operations.
  * @since 1.0.0
  */
 public class Matrix2 implements Matrix 
@@ -43,10 +43,6 @@ public class Matrix2 implements Matrix
 		return new float[][] {r0,r1};
 	}
 	
-	/**
-	 * multiply two matrices with each other.
-	 * returns the resulting matrix
-	 */
 	@Override
 	public float[][] mul(float[][] m1, float[][] m2)
 	{
@@ -63,9 +59,6 @@ public class Matrix2 implements Matrix
 		return new float[][] {res0, res1};
 	}
 	
-	/**
-	 * mass multiply a list of matrices with each other in the given order
-	 */
 	@Override
 	public float[][] mul(float[][]... m)
 	{
@@ -77,9 +70,6 @@ public class Matrix2 implements Matrix
 		return res;
 	}
 	
-	/**
-	 * returns the determinant of the given matrix
-	 */
 	@Override
 	public float det(float[][] m)
 	{
@@ -91,10 +81,6 @@ public class Matrix2 implements Matrix
 		return (a*d)-(b*c);
 	}
 
-	/**
-	 * returns the adjugate matrix.<br>
-	 * the transpose of the cofactor matrix
-	 */
 	@Override
 	public float[][] adjugate(float[][] m)
 	{
@@ -106,10 +92,7 @@ public class Matrix2 implements Matrix
 		return new float[][]{{d,-b},
 							 {-c,a}};
 	}
-
-	/**
-	 * returns the inverse matrix of the given matrix
-	 */
+	
 	@Override
 	public float[][] inverse(float[][] m)
 	{

@@ -9,18 +9,17 @@ import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.vector.Vector3;
 
 /**
- * 
+ * A 3 dimensional implementation of the {@code Matrix} interface. This class contains various 3-by-3 matrix operations.
  * @since 1.0.0
  */
 public class Matrix3 implements Matrix 
 {
-
 	@Override
 	public float[][] zero() 
 	{
 		return new float[][]{{0f,0f,0f},
-			 {0f,0f,0f},
-			 {0f,0f,0f}};
+							 {0f,0f,0f},
+							 {0f,0f,0f}};
 	}
 
 	@Override
@@ -85,17 +84,17 @@ public class Matrix3 implements Matrix
 		float[] res1 = {0f,0f,0f};
 		float[] res2 = {0f,0f,0f};
 		
-		res0[0] = dot( row0 , col0 );
-		res0[1] = dot( row0 , col1 );
-		res0[2] = dot( row0 , col2 );
+		res0[0] = V3.dot( row0 , col0 );
+		res0[1] = V3.dot( row0 , col1 );
+		res0[2] = V3.dot( row0 , col2 );
 		
-		res1[0] = dot( row1 , col0 );
-		res1[1] = dot( row1 , col1 );
-		res1[2] = dot( row1 , col2 );
+		res1[0] = V3.dot( row1 , col0 );
+		res1[1] = V3.dot( row1 , col1 );
+		res1[2] = V3.dot( row1 , col2 );
 		
-		res2[0] = dot( row2 , col0 );
-		res2[1] = dot( row2 , col1 );
-		res2[2] = dot( row2 , col2 );
+		res2[0] = V3.dot( row2 , col0 );
+		res2[1] = V3.dot( row2 , col1 );
+		res2[2] = V3.dot( row2 , col2 );
 		return new float[][] {res0,res1,res2};
 	}
 
@@ -166,15 +165,6 @@ public class Matrix3 implements Matrix
 		r2[2] = ((a0[0]*a1[0]) - (a0[1]*a1[1]))*det;
 		return new float[][] {r0,r1,r2};
 	}
-
-	/*
-	 * returns a dot product of the given float[] arrays of any length.
-	 * do not use with vectors
-	 */
-	private float dot(float[] a, float[] b)
-	{
-		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
-	}
 	
 	/*
 	 * get the column of a matrix by the given index
@@ -191,8 +181,11 @@ public class Matrix3 implements Matrix
 	private final Vector3 V3 = new Vector3();
 	
 	/**
-	 * mass multiply an array of float[3] arrays with the given matrix.
-	 * useful for applying a matrix to many vertices in one pass
+	 * Intended to be used for transforming a list of vertices {@code v} defined as an {@code float[n][3]} array.
+	 * @param m - the transformation matrix
+	 * @param v - the array of vertices
+	 * @return a list of all transformed vertices
+	 * @since 1.0.0
 	 */
 	public float[][] transform(float[][] m, float[][] v)
 	{
@@ -208,7 +201,11 @@ public class Matrix3 implements Matrix
 	}
 	
 	/**
-	 * multiply a float[3] array with the given matrix.
+	 * Intended to be used for transforming a vertex.
+	 * @param m - the transformation matrix
+	 * @param v - a vertex
+	 * @return the transformed vertex
+	 * @since 1.0.0
 	 */
 	public float[] transform(float[][] m, float[] v)
 	{
@@ -220,7 +217,12 @@ public class Matrix3 implements Matrix
 	}
 
 	/**
-	 * creates a translation matrix
+	 * Creates a translation matrix.
+	 * @param x - the Cartesian x location
+	 * @param y - the Cartesian y location
+	 * @param z - the Cartesian z location
+	 * @return a translation matrix
+	 * @since 1.0.0
 	 */
 	public float[][] translate(float x,float y,float z)
 	{
@@ -228,7 +230,13 @@ public class Matrix3 implements Matrix
 							 {0f,1f,y},
 							 {0f,0f,z}};
 	}
-	
+
+	/**
+	 * Creates a translation matrix with the content of {@code float[3]} vector {@code v}.
+	 * @param v - the vector with the Cartesian x, y and z location
+	 * @return a translation matrix
+	 * @since 1.0.0
+	 */
 	public float[][] translate(float[] v)
 	{
 		return new float[][]{{1f,0f,v[0]},
@@ -237,7 +245,12 @@ public class Matrix3 implements Matrix
 	}
 
 	/**
-	 * creates a scalar matrix
+	 * Creates a scaling matrix.
+	 * @param sx - the scale on x
+	 * @param sy - the scale on y
+	 * @param sz - the scale on z
+	 * @return a scaling matrix
+	 * @since 1.0.0
 	 */
 	public float[][] scale(float sx,float sy,float sz)
 	{
@@ -245,7 +258,13 @@ public class Matrix3 implements Matrix
 							 {0f,sy,0f},
 							 {0f,0f,sz}};
 	}
-	
+
+	/**
+	 * Creates a scaling matrix with the content of {@code float[3]} vector {@code s}.
+	 * @param s - the vector with the x, y and z scales
+	 * @return a scaling matrix
+	 * @since 1.0.0
+	 */
 	public float[][] scale(float[] s)
 	{
 		return new float[][]{{s[0],0f,0f},
@@ -254,45 +273,28 @@ public class Matrix3 implements Matrix
 	}
 	
 	/**
-	 * 
-	 */
-	public float[][] shear(float angle, boolean hor)
-	{
-		if (hor)
-		{
-			float tan = -1f * (float)(Math.tan(angle*0.5f));
-			return new float[][]{{ 1f,-tan, 0f}, 
-								 { 0f, 1f, 0f}, 
-				 				 { 0f, 0f, 1f}};
-		}
-		float sin = (float) Approximate.sin(angle);
-		return new float[][]{{ 1f, 0f, 0f}, 
-							 {sin, 1f, 0f}, 
-			 				 { 0f, 0f, 1f}};
-	}
-	
-	/**
-	 * creates a 2d screen-space correction matrix
+	 * Creates a 2D screen-space correction matrix.
+	 * @param width - the width of the screen
+	 * @param height - the height of the screen
+	 * @return a 2D screen-space correction matrix
+	 * @since 1.0.0
 	 */
 	public float[][] correction(float width, float height)
 	{
 		float hw = width*0.5f;
 		float hh = height*0.5f;
-		float as = width / height;
-		
 		float[][] sscm = {{hw, 0f,hw-0.5f},
 						  {0f,-hh,hh-0.5f},
 						  {0f, 0f,     1f}};
-
-		float[][] aspt = {{1f, 0f, 0f},
-						  {0f, as, 0f},
-						  {0f, 0f, 1f}};
-		
-		return mul(sscm,aspt);
+		return sscm;
 	}
 	
 	/**
-	 * Create a counter screen-space transformation matrix
+	 * Create a counter screen-space transformation matrix. This method can be used to transform a mouse location and project it into world-space.
+	 * @param width - the width of the screen
+	 * @param height - the height of the screen
+	 * @return a 2D counter screen-space correction matrix
+	 * @since 1.0.0
 	 */
 	public float[][] counter(float width, float height)
 	{
@@ -304,15 +306,42 @@ public class Matrix3 implements Matrix
 	}
 	
 	/**
-	 * get the rotation matrix from the given rotations
+	 * Creates a rotation matrix from the given angle. This method uses the approximation library for computing the sine and cosine.
+	 * @param angle - angle in radians
+	 * @return a rotation matrix
+	 * @since 1.0.0
+	 * @see Approximate
 	 */
-	public float[][] rotation(float roll)
+	public float[][] rotation(float angle)
 	{
-		float cos = (float) Approximate.cos(roll);
-		float sin = (float) Approximate.sin(roll);
+		float cos = (float) Approximate.cos(angle);
+		float sin = (float) Approximate.sin(angle);
 		float[][] mRoll = new float[][]{{cos,-sin, 0f},
 										{sin, cos, 0f},
 										{ 0f,  0f, 1f}};
 		return mRoll;
+	}
+	
+	/**
+	 * Creates a shearing matrix at the specified angle. This method uses the approximation library for computing the sine.
+	 * @param angle - the angle to shear
+	 * @param axes - {@code true} for horizontal, {@code false} for vertical
+	 * @return a shearing matrix
+	 * @since 1.0.0
+	 * @see Approximate
+	 */
+	public float[][] shear(float angle, boolean axes)
+	{
+		if (axes) // horizontal
+		{
+			float tan = -1f * (float)(Math.tan(angle*0.5f));
+			return new float[][]{{ 1f,-tan, 0f}, 
+								 { 0f, 1f, 0f}, 
+				 				 { 0f, 0f, 1f}};
+		}
+		float sin = (float) Approximate.sin(angle);
+		return new float[][]{{ 1f, 0f, 0f}, 
+							 {sin, 1f, 0f}, 
+			 				 { 0f, 0f, 1f}};
 	}
 }

@@ -8,7 +8,7 @@ package com.nullpointerworks.math.vector;
 import com.nullpointerworks.math.random.Randomizer;
 
 /**
- * Interface for standardizing vector operations. This interface does not guarantee that each implementation only contains the available methods. Some implementations have special methods that are intended for the use of the specified dimensions. Varying number of dimensions may permit or restrict some of the implemented methods.
+ * Interface for standardizing vector operations. Some implementations may have extra method definitions that are intended to be utilized for that range of dimensions. Varying number of dimensions may permit or restrict some of the implemented methods.
  * @since 1.0.0
  */
 public interface Vector 

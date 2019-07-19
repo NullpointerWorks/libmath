@@ -5,6 +5,7 @@
  */
 package com.nullpointerworks.math.vector;
 
+import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.random.Randomizer;
 
 /**
@@ -206,7 +207,7 @@ public class Vector3 implements Vector
 	}
 	
 	/** 
-	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}.
+	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}. This method uses the approximation library for computing the arc cosine.
 	 * <pre>
 	 *  u dot v
 	 * -------- = cos(t)
@@ -217,6 +218,7 @@ public class Vector3 implements Vector
 	 * @param v - another vector
 	 * @return the angle between two vectors
 	 * @since 1.0.0
+	 * @see Approximate
 	 */
 	public float angle(float[] u, float[] v)
 	{
@@ -225,6 +227,6 @@ public class Vector3 implements Vector
 		float m = magU * magV;
 		if (m == 0.0f) return MAX_VALUE;
 		float s = dot(u, v);
-		return (float)Math.acos(s / m);
+		return (float)Approximate.acos(s / m);
 	}
 }

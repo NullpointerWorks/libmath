@@ -298,8 +298,11 @@ public class Matrix4 implements Matrix
 	private final Vector4 V4 = new Vector4();
 	
 	/**
-	 * mass multiply an array of float[4] arrays with the given matrix.
-	 * useful for applying a matrix to many vertices in one pass
+	 * Intended to be used for transforming a list of vertices {@code v} defined as an {@code float[n][4]} array.
+	 * @param m - the transformation matrix
+	 * @param v - the array of vertices
+	 * @return a list of all transformed vertices
+	 * @since 1.0.0
 	 */
 	public float[][] transform(float[][] m, float[][] v)
 	{
@@ -316,7 +319,11 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * multiply a float[4] array with the given matrix.
+	 * Intended to be used for transforming a vertex.
+	 * @param m - the transformation matrix
+	 * @param v - a vertex
+	 * @return the transformed vertex
+	 * @since 1.0.0
 	 */
 	public float[] transform(float[][] m, float[] v)
 	{
@@ -329,7 +336,12 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Creates a translation matrix
+	 * Creates a translation matrix with space to transform into w.
+	 * @param x - the Cartesian x location
+	 * @param y - the Cartesian y location
+	 * @param z - the Cartesian z location
+	 * @return a translation matrix
+	 * @since 1.0.0
 	 */
 	public float[][] translate(float x,float y,float z)
 	{
@@ -339,6 +351,12 @@ public class Matrix4 implements Matrix
 							 {0f,0f,0f,1f}};
 	}
 	
+	/**
+	 * Creates a translation matrix with the content of {@code float[3]} vector {@code v}. The fourth dimension is left to {@code 1.0} to account for depth transformations. 
+	 * @param v - the vector with the Cartesian x, y and z location
+	 * @return a translation matrix
+	 * @since 1.0.0
+	 */
 	public float[][] translate(float[] v)
 	{
 		return new float[][]{{1f,0f,0f,v[0]},
@@ -348,7 +366,12 @@ public class Matrix4 implements Matrix
 	}
 
 	/**
-	 * Creates a scalar matrix
+	 * Creates a scaling matrix. The fourth dimension is left to {@code 1.0} to account for depth transformations. 
+	 * @param sx - the scale on x
+	 * @param sy - the scale on y
+	 * @param sz - the scale on z
+	 * @return a scaling matrix
+	 * @since 1.0.0
 	 */
 	public float[][] scale(float sx,float sy,float sz)
 	{
@@ -357,7 +380,13 @@ public class Matrix4 implements Matrix
 							 {0f,0f,sz,0f},
 							 {0f,0f,0f,1f}};
 	}
-	
+
+	/**
+	 * Creates a scaling matrix with the content of {@code float[3]} vector {@code s}. The fourth dimension is left to {@code 1.0} to account for depth transformations.
+	 * @param s - the vector with the x, y and z scales
+	 * @return a scaling matrix
+	 * @since 1.0.0
+	 */
 	public float[][] scale(float[] s)
 	{
 		return new float[][]{{s[0],0f,0f,0f},
@@ -367,7 +396,11 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Returns a screen-space correction matrix
+	 * Creates a 3D screen-space correction matrix.
+	 * @param width - the width of the screen
+	 * @param height - the height of the screen
+	 * @return a 2D screen-space correction matrix
+	 * @since 1.0.0
 	 */
 	public float[][] correction(float width, float height)
 	{
@@ -381,7 +414,11 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Create a counter screen-space transformation matrix
+	 * Create a counter screen-space transformation matrix. This method can be used to transform a mouse location and project it into world-space.
+	 * @param width - the width of the screen
+	 * @param height - the height of the screen
+	 * @return a 2D counter screen-space correction matrix
+	 * @since 1.0.0
 	 */
 	public float[][] counter(float width, float height)
 	{
@@ -394,43 +431,27 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * creates a TGN tangent-space matrix to transform normal map vectors<br>
-	 * provide the tangent, bi-tangent and normal vectors of the plane in question
+	 * Creates a rotation matrix computed with quaternions.
+	 * @param axes - an axes defines by a {@code float[3]} vector
+	 * @param angle - the angle in radians to rotate
+	 * @return a rotation matrix
+	 * @since 1.0.0
 	 */
-	public float[][] tangent(float[] tan, float[] bitan, float[] norm)
+	public float[][] rotation(float[] axes, float angle)
 	{
-		float[][] tanm = zero();
-		
-		tanm[0][0] = tan[0];
-		tanm[1][0] = tan[1];
-		tanm[2][0] = tan[2];
-		tanm[3][0] = tan[3];
-
-		tanm[0][1] = bitan[0];
-		tanm[1][1] = bitan[1];
-		tanm[2][1] = bitan[2];
-		tanm[3][1] = bitan[3];
-		
-		tanm[0][2] = norm[0];
-		tanm[1][2] = norm[1];
-		tanm[2][2] = norm[2];
-		tanm[3][2] = norm[3];
-		
-		return tanm;
-	}
-	
-	/**
-	 * Rotation done with quaternions. Returns a matrix with the result
-	 */
-	public float[][] rotation(float[] v3_axes, float angle)
-	{
-		float[] v3 = V3.normalize(v3_axes);
+		float[] v3 = V3.normalize(axes);
 		float[] dt = Quaternion.rotation(v3, angle);
 		return Quaternion.matrix(dt);
 	}
 	
 	/**
-	 * get the rotation matrix from the given rotations
+	 * Creates a rotation matrix by passing the angles for each axes. This method applies the Euler's method of combining three rotation matrices which makes it vulnerable to Gimbal lock. This method uses the approximation library for fast computation of sine and cosine.
+	 * @param roll - 
+	 * @param pitch - 
+	 * @param yaw - 
+	 * @return a rotation matrix
+	 * @since 1.0.0
+	 * @see Approximate
 	 */
 	public float[][] rotation(float roll, float pitch, float yaw)
 	{
@@ -460,9 +481,13 @@ public class Matrix4 implements Matrix
 	}
 
 	/**
-	 * Special screenspace transform that handles x,y and z elements, but not w
+	 * Special screen-space transform that handles x,y and z elements, but not w.
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
-	public final void transform3(float[][] m, float[] v)
+	public void transform3(float[][] m, float[] v)
 	{
 		v[0] = dot3(m[0], v);
 		v[1] = dot3(m[1], v);
@@ -471,14 +496,23 @@ public class Matrix4 implements Matrix
 	
 	/**
 	 * Special dot product that ignores the vector's W element
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	private float dot3(float[] a, float[] b)
 	{
 		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
 	}
-
+	
 	/**
 	 * creates a look-at transform matrix
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	public float[][] lookAt(float[] eye, float[] target, float[] up)
 	{
@@ -504,6 +538,12 @@ public class Matrix4 implements Matrix
 	
 	/**
 	 * Creates a perspective homogeneous transform matrix
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	public float[][] perspective(float fov, float aspect, float near, float far)
 	{
@@ -520,6 +560,12 @@ public class Matrix4 implements Matrix
 	
 	/**
 	 * Creates an orthographic transform matrix
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	public float[][] orthographic(float fov, float aspect, float near, float far) 
 	{
@@ -538,6 +584,11 @@ public class Matrix4 implements Matrix
 	
 	/**
 	 * creates an orthographic transform matrix for lightbox transformation
+	 * @param 
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	public float[][] lightbox_orthographic(float width, float height, float length)
 	{

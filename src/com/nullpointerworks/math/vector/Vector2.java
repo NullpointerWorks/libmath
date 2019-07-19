@@ -234,7 +234,7 @@ public class Vector2 implements Vector
 	final float MAX_VALUE = Float.MAX_VALUE;
 	
 	/** 
-	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}.
+	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}. This method uses the approximation library for computing the arc cosine.
 	 * <pre>
 	 *  u dot v
 	 * -------- = cos(t)
@@ -245,6 +245,7 @@ public class Vector2 implements Vector
 	 * @param v - another vector
 	 * @return the angle between two vectors
 	 * @since 1.0.0
+	 * @see Approximate
 	 */
 	public float angle(float[] u, float[] v)
 	{
@@ -257,10 +258,11 @@ public class Vector2 implements Vector
 	}
 	
 	/**
-	 * Returns a unit vector pointing at the angular direction specified.
+	 * Returns a unit vector pointing at the angular direction specified. This method uses the approximation library for computing the sine and cosine.
 	 * @param angle - the angle for the vector
 	 * @return a unit vector pointing at the angular direction specified
 	 * @since 1.0.0
+	 * @see Approximate
 	 */
 	public float[] rotation(float angle)
 	{
