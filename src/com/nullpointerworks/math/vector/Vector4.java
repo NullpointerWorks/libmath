@@ -7,6 +7,9 @@ package com.nullpointerworks.math.vector;
 
 import com.nullpointerworks.math.random.Randomizer;
 
+/**
+ * A 4 dimensional implementation of the {@code Vector} interface. This class contains various 4D vector operations.
+ */
 public class Vector4 implements Vector 
 {
 	public static Vector4 New() {return new Vector4();}
@@ -101,7 +104,11 @@ public class Vector4 implements Vector
 	}
 	
 	/**
-	 * 
+	 * The cross product in 4 dimensions has no valid meaning. This implementation returns a 3D cross product in the form of a {@code float[4]} of which the fourth component, the {@code w} axes, equals {@code 0.0}.
+	 * @param a - a vector
+	 * @param b - another vector
+	 * @return the cross product vector
+	 * @since 1.0.0
 	 */
 	@Override
 	public float[] cross(float[] a, float[] b) 

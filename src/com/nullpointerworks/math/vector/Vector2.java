@@ -9,7 +9,7 @@ import com.nullpointerworks.math.Approximate;
 import com.nullpointerworks.math.random.Randomizer;
 
 /**
- * 
+ * A 2 dimensional implementation of the {@code Vector} interface. This class contains various 2D vector operations including a few special functions not specified in the interface.
  * @since 1.0.0
  */
 public class Vector2 implements Vector 
@@ -135,12 +135,16 @@ public class Vector2 implements Vector
 	}
 	
 	/**
-	 * 
+	 * The cross product in 2 dimensions has no valid meaning since all results point in the third dimension. This implementation returns a {@code float[3]} of which the third component, the {@code z} axes, has the projection in depth. The x and y components will always be {@code 0.0}.
+	 * @param a - a vector
+	 * @param b - another vector
+	 * @return the cross product vector
+	 * @since 1.0.0
 	 */
 	@Override
 	public float[] cross(float[] a, float[] b) 
 	{
-		return new float[] {0f,0f, a[0]*b[1]-a[1]*b[0] };
+		return new float[] {0f, 0f, a[0]*b[1]-a[1]*b[0] };
 	}
 
 	@Override
@@ -173,6 +177,10 @@ public class Vector2 implements Vector
 	/**
 	 * Finds the intersection of {@code A+l*a} onto line {@code B+l*b}. The intersection is found with the following formula:
 	 * <pre>l = ( dot(n,B) - dot(n,A) ) / dot(n,a)</pre>
+	 * @param A - a source vertex
+	 * @param a - the projection vector for {@code A}
+	 * @param B - a source vertex
+	 * @param b - the projection vector for {@code B}
 	 * @return the lambda scalar
 	 * @since 1.0.0
 	 */
@@ -190,10 +198,15 @@ public class Vector2 implements Vector
 	/**
 	 * Finds the intersection of {@code A+l*a} onto line {@code B+l*b}. The intersection is returned as a vector
 	 * returns both lambda scalars in vector form<br>
+	 * @param A - a source vertex
+	 * @param a - the projection vector for {@code A}
+	 * @param B - a source vertex
+	 * @param b - the projection vector for {@code B}
+	 * @return two lambda scalars for both axes in the form of a {@code float[2]}
 	 * @since 1.0.0
 	 */
-	public static float[] intersect2(float[] A, float[] a,
-				   		   			 float[] B, float[] b)
+	public float[] intersect2(float[] A, float[] a,
+				   		   	  float[] B, float[] b)
 	{
 		float x1 = A[0];
 		float y1 = A[1];
@@ -208,12 +221,12 @@ public class Vector2 implements Vector
 		float t1,t2,det = (dy1 * dx2 - dx1 * dy2);
 		if (det != 0f)
 		t1 = ((x1 - x2) * dy2 + (y2 - y1) * dx2) / det;
-		else t1 = Float.MAX_VALUE;
+		else t1 = MAX_VALUE;
 		
 		det = (dy2 * dx1 - dx2 * dy1);
 		if (det != 0f)
 		t2 = ((x2 - x1) * dy1 + (y1 - y2) * dx1) / det;
-		else t2 = Float.MAX_VALUE;
+		else t2 = MAX_VALUE;
 		
 		return new float[] {t1, t2};
 	}
@@ -221,11 +234,16 @@ public class Vector2 implements Vector
 	final float MAX_VALUE = Float.MAX_VALUE;
 	
 	/** 
-	 * Finds the angle in radians between two vectors.
+	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}.
 	 * <pre>
 	 *  u dot v
 	 * -------- = cos(t)
 	 * |u| * |v|</pre>
+	 * 
+	 * @return the angle in radians between two vectors
+	 * @param u - a vector
+	 * @param v - another vector
+	 * @return the angle between two vectors
 	 * @since 1.0.0
 	 */
 	public float angle(float[] u, float[] v)
@@ -235,14 +253,16 @@ public class Vector2 implements Vector
 		float m = magU * magV;
 		if (m == 0.0f) return MAX_VALUE;
 		float s = dot(u, v);
-		return (float)Math.acos(s / m);
+		return (float)Approximate.acos(s / m);
 	}
 	
 	/**
-	 * returns a rotated normalized vector
+	 * Returns a unit vector pointing at the angular direction specified.
+	 * @param angle - the angle for the vector
+	 * @return a unit vector pointing at the angular direction specified
 	 * @since 1.0.0
 	 */
-	public static float[] rotation(float angle)
+	public float[] rotation(float angle)
 	{
 		float cs = (float)Approximate.cos(angle);
 		float sn = (float)Approximate.sin(angle);
@@ -250,23 +270,23 @@ public class Vector2 implements Vector
 	}
 	
 	/**
-	 * returns the reflection vector from a given vector of incidence.<br>
-	 * A  = position of vector of incidence<br>
-	 * C  = line intersection position<br>
-	 * nn = normalized normal from vector w<br>
-	 * <br>
-	 * Example usage from a given two vectors A+a*l and B+b*l;<br>
-	 * <pre>
-	 * float l   = intersect(A, a, B, b);
-	 * float[] n = normalize( normal(b) );
-	 * float[] C = projection(A, a, l);
-	 * float[] c = reflection(A, C, n);</pre>
+	 * Returns the reflection vector from a given vector of incidence {@code A+a*l} and the boundary to test {@code B+b*l}.
+	 * @param A - the ray source vertex
+	 * @param a - the ray projection vector
+	 * @param B - boundary source vertex
+	 * @param b - boundary projection vector
+	 * @return a reflection vector from the boundary
 	 * @since 1.0.0
 	 */
-	public float[] reflection(float[] A, float[] C, float[] nn)
+	public float[] reflection(float[] A, float[] a, float[] B, float[] b)
 	{
-		float u 	= dot(nn, sub(A, C));
-		float[] P	= project(C, nn, u+u);
+		// find reflective normal
+		float l 	= intersect(A, a, B, b);
+		float[] n 	= normalize( normal(b) );
+		float[] C 	= project(A, a, l);
+		// reflect
+		float u 	= dot(n, sub(A, C));
+		float[] P	= project(C, n, u+u);
 		return sub(P, A);
 	}
 }

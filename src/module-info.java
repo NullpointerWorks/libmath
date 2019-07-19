@@ -15,7 +15,6 @@ module libnpw.math
 	exports com.nullpointerworks.math.geometry.logic;
 	exports com.nullpointerworks.math.matrix;
 	exports com.nullpointerworks.math.random;
-	exports com.nullpointerworks.math.utility;
 	exports com.nullpointerworks.math.vector;
 	
 	exports exp.nullpointerworks.math.geometry;

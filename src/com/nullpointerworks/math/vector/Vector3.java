@@ -7,6 +7,10 @@ package com.nullpointerworks.math.vector;
 
 import com.nullpointerworks.math.random.Randomizer;
 
+/**
+ * A 3 dimensional implementation of the {@code Vector} interface. This class contains various 3D vector operations including a few special functions not specified in the interface.
+ * @since 1.0.0
+ */
 public class Vector3 implements Vector 
 {
 	public static Vector3 New() {return new Vector3();}
@@ -163,14 +167,17 @@ public class Vector3 implements Vector
 	// ========================================
 	
 	/**
-	 * Returns the normal vector from three vectors.
+	 * Returns a perpendicular vector to a plane defined by an origin vector {@code O} and two vectors {@code a} and {@code b} that define a plane.
+	 * @param O - origin vector
+	 * @param a - a vector to define one axes of the plane
+	 * @param b - a vector to define another axes of the plane
 	 * @return the normal vector from three vectors
 	 * @since 1.0.0
 	 */
-	public float[] normal(float[] a, float[] b, float[] c)
+	public float[] normal(float[] O, float[] a, float[] b)
 	{
-		float[] u = sub(b,a);
-		float[] v = sub(c,a);
+		float[] u = sub(a,O);
+		float[] v = sub(b,O);
 		return cross(u,v);
 	}
 	
@@ -178,6 +185,11 @@ public class Vector3 implements Vector
 	
 	/**
 	 * Tests a vector {@code V+v*u} to intersect a plane {@code O+a*u+b*v}.
+	 * @param V - ray starting point
+	 * @param v - ray projection vector
+	 * @param O - plane origin
+	 * @param a - a vector to define one axes of the plane
+	 * @param b - a vector to define another axes of the plane
 	 * @return the lambda value of the plane intersection
 	 * @since 1.0.0
 	 */
@@ -194,11 +206,16 @@ public class Vector3 implements Vector
 	}
 	
 	/** 
-	 * Finds the angle in radians between two vectors.
+	 * Finds the angle in radians between two vectors. The measured range between vectors is always {@code [0 - pi]}.
 	 * <pre>
 	 *  u dot v
 	 * -------- = cos(t)
 	 * |u| * |v|</pre>
+	 * 
+	 * @return the angle in radians between two vectors
+	 * @param u - a vector
+	 * @param v - another vector
+	 * @return the angle between two vectors
 	 * @since 1.0.0
 	 */
 	public float angle(float[] u, float[] v)

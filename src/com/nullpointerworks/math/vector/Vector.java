@@ -127,9 +127,9 @@ public interface Vector
 	float magnitude(float[] v);
 	
 	/**
-	 * 
-	 * @param 
-	 * @return 
+	 * Returns a vector with randomized components. The general contract for the randomizer is to return values in the range from {@code 0.0} to {@code 1.0}.
+	 * @param rng - an implementation of the {@code Randomizer} interface
+	 * @return a vector with randomized components
 	 * @since 1.0.0
 	 */
 	float[] random(Randomizer rng);
@@ -144,7 +144,7 @@ public interface Vector
 	float[] limit(float[] v, float f);
 	
 	/**
-	 * Normalizes the magnitude of a vector to range from {@code 0} to {@code 1}. In other words, this method returns a unit vector in the same direction as the given vector.
+	 * Normalizes the magnitude of a vector to range from {@code 0.0} to {@code 1.0}. In other words, this method returns a unit vector in the same direction as the given vector.
 	 * @param a - the vector to normalize
 	 * @return the normalized vector
 	 * @since 1.0.0
@@ -152,25 +152,24 @@ public interface Vector
 	float[] normalize(float[] a);
 
 	/**
-	 * 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Planar interpolation method. Provided with a plane defined by origin {@code O} and two vectors {@code a} and {@code b} defining two axes. Returns the coordinate on the plane at the location specified by {@code u} and {@code v}.
+	 * @param O - origin of the plane
+	 * @param a - an axes on the plane
+	 * @param b - another axes on the plane
+	 * @param u - the interpolation along vector {@code a}
+	 * @param v - the interpolation along vector {@code b}
+	 * @return a vector pointing away from the origin {@code O}  
 	 * @since 1.0.0
 	 */
 	float[] planar(float[] O, float[] a, float[] b, float u, float v);
 
 	/**
-	 * 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Projects a vector {@code a} from the source vertex {@code A} scaled by the lambda factor.
+	 * @param A - source vertex
+	 * @param a - the projection vector
+	 * @param lambda - the projection scalar
+	 * @return the projected vector
 	 * @since 1.0.0
 	 */
 	float[] project(float[] A, float[] a, float lambda);
-	
 }
