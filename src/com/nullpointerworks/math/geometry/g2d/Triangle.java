@@ -8,6 +8,10 @@ package com.nullpointerworks.math.geometry.g2d;
 import com.nullpointerworks.math.FloatMath;
 import com.nullpointerworks.math.vector.Vector2;
 
+/**
+ * An extension of the {@code Geometry2D} class. Provides 2 dimensional triangle functionality.
+ * @since 1.0.0
+ */
 public class Triangle extends Geometry2D
 {
 	private final Vector2 V2 = new Vector2();
@@ -16,8 +20,22 @@ public class Triangle extends Geometry2D
 	private final int X = 0;
 	private final int Y = 1;
 	
+	/**
+	 * Creates an empty triangle object. 
+	 * @since 1.0.0
+	 */
 	public Triangle() {}
 	
+	/**
+	 * Creates a triangle based on the given {@code (x,y)} coordinates.
+	 * @param x1 - x location of point 1
+	 * @param y1 - y location of point 1
+	 * @param x2 - x location of point 2
+	 * @param y2 - y location of point 2
+	 * @param x3 - x location of point 3
+	 * @param y3 - y location of point 3
+	 * @since 1.0.0
+	 */
 	public Triangle(float x1, float y1,
 					float x2, float y2,
 					float x3, float y3)
@@ -27,6 +45,13 @@ public class Triangle extends Geometry2D
 		v3 = V2.New(x3, y3);
 	}
 	
+	/**
+	 * Creates a triangle based on the given vertices {@code p1, p2} and {@code p3}.
+	 * @param p1 - a 2D vertex of the triangle
+	 * @param p2 - another 2D vertex of the triangle
+	 * @param p3 - yet another 2D vertex of the triangle
+	 * @since 1.0.0
+	 */
 	public Triangle(float[] p1, float[] p2, float[] p3)
 	{
 		v1 = V2.copy(p1);
@@ -41,19 +66,14 @@ public class Triangle extends Geometry2D
 	}
 	
 	@Override
-	public boolean isInside(float[] vec)
+	public boolean isInside(float px, float py)
 	{
+		float[] vec = {px,py};
 		boolean b1,b2,b3;
 		b1 = cross(vec, v1, v2) < 0.0f;
 	    b2 = cross(vec, v2, v3) < 0.0f;
 	    b3 = cross(vec, v3, v1) < 0.0f;
 		return ((b1 == b2) && (b2 == b3));
-	}
-	
-	@Override
-	public boolean isInside(float px, float py)
-	{
-		return isInside(new float[] {px,py});
 	}
 	
 	@Override
@@ -72,7 +92,7 @@ public class Triangle extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y)
+	public void translate(float x, float y)
 	{
 		v1[X] += x;
 		v1[Y] += y;

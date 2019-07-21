@@ -9,6 +9,10 @@ import com.nullpointerworks.math.geometry.g2d.Circle;
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
 
+/**
+ * Implements an algorithm to detect if two {@code Circle} objects are intersection.
+ * @since 1.0.0
+ */
 public class CircleCircle implements IIntersectionSolver2
 {
 	public static final CircleCircle instance = new CircleCircle();

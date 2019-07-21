@@ -17,7 +17,7 @@ public abstract class Geometry3D extends Geometry
 	public abstract Type type();
 	
 	public abstract void offset(float x, float y, float z);
-	public void offset(float[] vec)
+	public void translate(float[] vec)
 	{
 		offset(vec[0], vec[1], vec[2]);
 	}

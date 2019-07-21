@@ -19,6 +19,10 @@ import com.nullpointerworks.math.geometry.logic.LogicNot2D;
 import com.nullpointerworks.math.geometry.logic.LogicOr2D;
 import com.nullpointerworks.math.geometry.logic.LogicXor2D;
 
+/**
+ * Contains static members for two-dimensional geometry manipulation, logic operations and intersection tests. 
+ * @since 1.0.0
+ */
 public class Geometry2 
 {
 	/*
@@ -33,8 +37,8 @@ public class Geometry2
 		 PointRectangle.instance},
 		
 		{CirclePoint.instance,
-		 CircleCircle.instance, 
-		 CircleTriangle.instance, 
+		 CircleCircle.instance,
+		 CircleTriangle.instance,
 		 CircleRectangle.instance},
 		
 		{TrianglePoint.instance,
@@ -49,7 +53,15 @@ public class Geometry2
 	};
 	
 	/**
-	 * generalized intersection test
+	 * Test if two base primitives are in any way intersecting. A base geometry would be any implementation of a Point, Circle, Triangle or Rectangle.
+	 * @param A - any base primitives
+	 * @param B - any base primitives
+	 * @return {@code true} if the two geometries are intersecting
+	 * @since 1.0.0
+	 * @see Point
+	 * @see Circle
+	 * @see Triangle
+	 * @see Rectangle
 	 */
 	public static boolean intersect(Geometry2D A, Geometry2D B)
 	{
@@ -58,26 +70,58 @@ public class Geometry2
 		return solvers[a][b].solve(A, B);
 	}
 	
+	/**
+	 * Creates a logic "and" group of geometries. Any location tested in this group will return {@code true} if all geometries have been intersected.
+	 * @param g - a list of 2D geometries
+	 * @return a logic NOT group
+	 * @since 1.0.0
+	 */
 	public static Geometry2D AND(Geometry2D... g)
 	{
 		return makeGroup(new LogicAnd2D(),g);
 	}
 	
+	/**
+	 * Creates a logic "or" group of geometries. Any location tested in this group will return {@code false} if none of the geometries have been intersected. 
+	 * @param g - a list of 2D geometries
+	 * @return a logic NOT group
+	 * @since 1.0.0
+	 */
 	public static Geometry2D OR(Geometry2D... g)
 	{
 		return makeGroup(new LogicOr2D(),g);
 	}
 	
+	/**
+	 *
+	 * Creates a logic exclusive or group of geometries. Any location tested in this group will return {@code false} if an even number, including {@code 0}, geometries have been intersected.
+	 * @param g - a list of 2D geometries
+	 * @return a logic XOR group
+	 * @since 1.0.0
+	 */
 	public static Geometry2D XOR(Geometry2D... g)
 	{
 		return makeGroup(new LogicXor2D(),g);
 	}
 	
+	/**
+	 * Creates a logic "not" group of geometries. Any location tested in this group will return {@code false} if any of the geometries have been intersected.
+	 * @param g - a list of 2D geometries
+	 * @return a logic NOT group
+	 * @since 1.0.0
+	 */
 	public static Geometry2D NOT(Geometry2D... g)
 	{
 		return makeGroup(new LogicNot2D(),g);
 	}
 	
+	/**
+	 * Compiles a logic group with the list of geometries provided.
+	 * @param lg - the logic group to be applied
+	 * @param g - a list of 2D geometries
+	 * @return a 2D logic group
+	 * @since 1.0.0
+	 */
 	private static LogicGroup2D makeGroup(LogicGroup2D lg, Geometry2D... g)
 	{
 		for (int l=g.length-1; l>=0; l--)
@@ -88,26 +132,11 @@ public class Geometry2
 	}
 	
 	/**
-	 * Gauss's shoelace area formula.
-	 * @returns the area of the counter-clockwise winded, irregular, non-intersecting polygon
-	 */
-	public static float area(float[][] polygon)
-	{
-		float area = 0f;
-		int leng = polygon.length - 1;
-		for (int i=0; i<leng; i++)
-		{
-			float[] v = polygon[i];
-			float[] n = polygon[i+1];
-			float x_hand = v[0] * n[1];
-			float y_hand = n[0] * v[1];
-			area += (x_hand - y_hand);
-		}
-		return area * 0.5f;
-	}
-	
-	/**
 	 * Finds the fitting rectangle in the overlap of the two given rectangles
+	 * @param 
+	 * @param 
+	 * @return 
+	 * @since 1.0.0
 	 */
 	public static Rectangle intersection(Rectangle r1, Rectangle r2)
 	{

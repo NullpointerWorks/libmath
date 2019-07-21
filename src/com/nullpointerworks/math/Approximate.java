@@ -195,48 +195,44 @@ public class Approximate
 	{
 	    if (x != 0.0f)
 	    {
-	        if ( ((x<0.0)?-x:x) > ((y<0.0)?-y:y)) // check abs(x) > abs(y)
+	        if ( ((x<0.0)?-x:x) > ((y<0.0)?-y:y))
 	        {
 	        	double z = y / x;
 	            if (x > 0.0)
 	            {
-	                // atan2(y,x) = atan(y/x) if x > 0
 	                return atan(z);
 	            }
-	            else if (y >= 0.0)
+	            else 
+	            if (y >= 0.0)
 	            {
-	                // atan2(y,x) = atan(y/x) + PI if x < 0, y >= 0
 	                return atan(z) + PI;
 	            }
 	            else
 	            {
-	                // atan2(y,x) = atan(y/x) - PI if x < 0, y < 0
 	                return atan(z) - PI;
 	            }
 	        }
-	        else // Use property atan(y/x) = PI/2 - atan(x/y) if |y/x| > 1.
+	        else
 	        {
 	        	double z = x / y;
 	            if (y > 0.0)
 	            {
-	                // atan2(y,x) = PI/2 - atan(x/y) if |y/x| > 1, y > 0
 	                return -atan(z) + PI05;
 	            }
 	            else
 	            {
-	                // atan2(y,x) = -PI/2 - atan(x/y) if |y/x| > 1, y < 0
 	                return -atan(z) - PI05;
 	            }
 	        }
 	    }
 	    else
 	    {
-	        if (y > 0.0) // x = 0, y > 0
+	        if (y > 0.0)
 	        {
 	            return PI05;
 	        }
-	        else 
-	        if (y < 0.0) // x = 0, y < 0
+	        else
+	        if (y < 0.0)
 	        {
 	            return -PI05;
 	        }

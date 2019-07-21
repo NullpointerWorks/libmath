@@ -10,6 +10,10 @@ import com.nullpointerworks.math.geometry.g2d.Point;
 import com.nullpointerworks.math.geometry.g2d.Triangle;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
 
+/**
+ * An implementation that detects if a {@code Point} objects is intersection a {@code Triangle} object.
+ * @since 1.0.0
+ */
 public class PointTriangle implements IIntersectionSolver2 
 {
 	public static final PointTriangle instance = new PointTriangle();

@@ -14,12 +14,11 @@ import com.nullpointerworks.math.vector.Vector4;
 import com.nullpointerworks.math.vector.VectorN;
 
 /**
- * 
+ * A 4 dimensional implementation of the {@code Matrix} interface. This class contains various 4-by-4 matrix operations including a set of special functions to help generate 3D world transformations.
  * @since 1.0.0
  */
 public class Matrix4 implements Matrix 
 {
-
 	@Override
 	public float[][] zero() 
 	{
@@ -481,11 +480,11 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Creates a look-at transform matrix
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Creates a "look-at" view matrix used for model- to world-space transformations. This matrix is primarily used for camera translation and rotation.
+	 * @param eye - the location vertex of the camera
+	 * @param target - the location vertex to look at
+	 * @param up - the upwards camera vector
+	 * @return a look-at matrix
 	 * @since 1.0.0
 	 */
 	public float[][] lookAt(float[] eye, float[] target, float[] up)
@@ -511,12 +510,12 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Creates a perspective homogeneous transform matrix
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Creates a perspective transformation matrix which transforms vertices into homogeneous coordinates. 
+	 * @param fov - field of view in degrees,
+	 * @param aspect - the aspect ratio of the screen
+	 * @param near - the distance to the frustum's near plane
+	 * @param far - the distance to the frustum's far plane
+	 * @return a perspective transformation matrix
 	 * @since 1.0.0
 	 */
 	public float[][] perspective(float fov, float aspect, float near, float far)
@@ -533,12 +532,12 @@ public class Matrix4 implements Matrix
 	}
 	
 	/**
-	 * Creates an orthographic transform matrix
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Creates an orthographic transformation matrix which transforms vertices into homogeneous coordinates. 
+	 * @param fov - field of view in degrees,
+	 * @param aspect - the aspect ratio of the screen
+	 * @param near - the distance to the frustum's near plane
+	 * @param far - the distance to the frustum's far plane
+	 * @return an orthographic transformation matrix
 	 * @since 1.0.0
 	 */
 	public float[][] orthographic(float fov, float aspect, float near, float far) 
@@ -557,11 +556,11 @@ public class Matrix4 implements Matrix
     }
 	
 	/**
-	 * creates an orthographic transform matrix for lightbox transformation
-	 * @param 
-	 * @param 
-	 * @param 
-	 * @return 
+	 * Creates an orthographic lightbox transformation matrix. Primarily used for rendering a scene at low resolution to generate a depth map for global lighting effects in 3D simulations.
+	 * @param width - the width of the box
+	 * @param height - the height of the box
+	 * @param length - the length of the box
+	 * @return an orthographic lightbox transformation matrix
 	 * @since 1.0.0
 	 */
 	public float[][] lightbox_orthographic(float width, float height, float length)
@@ -573,31 +572,5 @@ public class Matrix4 implements Matrix
 							 { 0f,n22,  0f, 0f},
 							 { 0f, 0f,-n33, 0f},
 							 { 0f, 0f,  0f, 1f}};
-	}
-
-	/**
-	 * Special screen-space transform that handles x,y and z elements, but not w.
-	 * @param 
-	 * @param 
-	 * @return 
-	 * @since 1.0.0
-	 */
-	public void transform3(float[][] m, float[] v)
-	{
-		v[0] = dot3(m[0], v);
-		v[1] = dot3(m[1], v);
-		v[2] = dot3(m[2], v);
-	}
-	
-	/**
-	 * Special dot product that ignores the vector's W element
-	 * @param 
-	 * @param 
-	 * @return 
-	 * @since 1.0.0
-	 */
-	private float dot3(float[] a, float[] b)
-	{
-		return a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3];//*b[3];
 	}
 }

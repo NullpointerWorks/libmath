@@ -99,15 +99,15 @@ public class RoundRectangle extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y)
+	public void translate(float x, float y)
 	{
 		this.x += x;
 		this.y += y;
-		bounding.offset(x,y);
-		circ1.offset(x,y);
-		circ2.offset(x,y);
-		circ3.offset(x,y);
-		circ4.offset(x,y);
+		bounding.translate(x,y);
+		circ1.translate(x,y);
+		circ2.translate(x,y);
+		circ3.translate(x,y);
+		circ4.translate(x,y);
 	}
 	
 	@Override

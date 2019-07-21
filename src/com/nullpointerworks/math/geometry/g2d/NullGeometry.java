@@ -5,12 +5,16 @@
  */
 package com.nullpointerworks.math.geometry.g2d;
 
+/**
+ * A null geometry is meant to be returned when errors occur during calculations. It has no area, its bounding-box will have no meaningful dimensions and will always return {@code true} when testing for intersections.
+ * @since 1.0.0
+ */
 public class NullGeometry extends Geometry2D
 {
 	@Override
 	public Type type() 
 	{
-		return Type.Point;
+		return Type.Null;
 	}
 
 	@Override
@@ -32,7 +36,7 @@ public class NullGeometry extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y)
+	public void translate(float x, float y)
 	{
 		
 	}

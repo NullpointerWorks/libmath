@@ -11,6 +11,10 @@ import java.util.List;
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 import com.nullpointerworks.math.geometry.g2d.Rectangle;
 
+/**
+ * Abstract group geometry which extends Geometry2D and supplies some extra methods for adding and clearing the group.
+ * @since 1.0.0
+ */
 public abstract class LogicGroup2D extends Geometry2D
 {
 	protected List<Geometry2D> geoms = new ArrayList<Geometry2D>();
@@ -21,11 +25,20 @@ public abstract class LogicGroup2D extends Geometry2D
 	@Override
 	public abstract Geometry2D copy();
 	
+	/**
+	 * Add a geometry to this logic group.
+	 * @param geom - the 2D geometry to add
+	 * @since 1.0.0
+	 */
 	public void add(Geometry2D geom)
 	{
 		if (geom!=null) geoms.add(geom);
 	}
 	
+	/**
+	 * Removes all geometries from this group.
+	 * @since 1.0.0
+	 */
 	public void clear()
 	{
 		geoms.clear();
@@ -55,15 +68,22 @@ public abstract class LogicGroup2D extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y) 
+	public void translate(float x, float y) 
 	{
 		for (int i=0,l=geoms.size(); i<l; i++)
 		{
 			Geometry2D g = geoms.get(i);
-			g.offset(x, y);
+			g.translate(x, y);
 		}
 	}
 	
+	final float resolution = 0.01f;
+	
+	/**
+	 * Currently, there is no way to compute the area of the group. This might be implemented in future iterations of the math library.
+	 * @return the value {@code -1.0}
+	 * @since 1.0.0
+	 */
 	@Override
 	public float area() 
 	{

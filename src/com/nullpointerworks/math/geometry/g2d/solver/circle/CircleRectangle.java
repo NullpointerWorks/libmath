@@ -11,6 +11,10 @@ import com.nullpointerworks.math.geometry.g2d.Rectangle;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
 import com.nullpointerworks.math.vector.Vector2;
 
+/**
+ * An implementation that detects if a {@code Circle} objects is intersection a {@code Rectangle} object.
+ * @since 1.0.0
+ */
 public class CircleRectangle implements IIntersectionSolver2 
 {
 	public static final CircleRectangle instance = new CircleRectangle();

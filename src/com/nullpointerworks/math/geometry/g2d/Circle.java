@@ -5,6 +5,10 @@
  */
 package com.nullpointerworks.math.geometry.g2d;
 
+/**
+ * An extension of the {@code Geometry2D} class. Contains information for defining a circle in 2D. 
+ * @since 1.0.0
+ */
 public class Circle extends Geometry2D
 {
 	private final float PI = 3.1415927f;
@@ -13,11 +17,19 @@ public class Circle extends Geometry2D
 	public float x = 0f;
 	public float y = 0f;
 	
+	/**
+	 * Creates an empty circle object without any predefined characteristics.
+	 * @since 1.0.0
+	 */
 	public Circle() {}
-	public Circle(float[] p, float r)
-	{
-		this(p[0], p[1], r);
-	}
+	
+	/**
+	 * Creates a new Circle object defined by it's location and radius.
+	 * @param x - location on the x axes
+	 * @param y - location on the y axes
+	 * @param r - its radius
+	 * @since 1.0.0
+	 */
 	public Circle(float x, float y, float r)
 	{
 		this.x=x;
@@ -43,12 +55,6 @@ public class Circle extends Geometry2D
 	}
 	
 	@Override
-	public boolean isInside(float[] vec)
-	{
-		return isInside(vec[0], vec[1]);
-	}
-	
-	@Override
 	public float[] center()
 	{
 		return new float[] {x,y};
@@ -61,7 +67,7 @@ public class Circle extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y)
+	public void translate(float x, float y)
 	{
 		this.x += x;
 		this.y += y;

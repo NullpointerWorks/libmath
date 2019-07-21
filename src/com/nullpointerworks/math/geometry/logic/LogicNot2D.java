@@ -7,6 +7,18 @@ package com.nullpointerworks.math.geometry.logic;
 
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 
+/**
+ * Logical NOT geometry group. Testing a location on this group will return {@code true} if none of the geometries return true on the {@code isInside(float,float)} test. <br>
+ * <br>
+ * The logic for the test is similar to the two input logic NOT gate. Returns true if no inputs is true.
+ * <pre>
+ *    | 0  1
+ *  --+------
+ *  0 | 1  0
+ *    |
+ *  1 | 0  0</pre>
+ * @since 1.0.0
+ */
 public class LogicNot2D extends LogicGroup2D
 {
 	@Override

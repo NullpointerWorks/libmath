@@ -9,6 +9,10 @@ import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 import com.nullpointerworks.math.geometry.g2d.Rectangle;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
 
+/**
+ * An implementation that detects if a {@code Rectangle} objects is intersection another {@code Rectangle} object.
+ * @since 1.0.0
+ */
 public class RectangleRectangle implements IIntersectionSolver2 
 {
 	public static final RectangleRectangle instance = new RectangleRectangle();

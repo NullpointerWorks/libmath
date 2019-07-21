@@ -124,4 +124,25 @@ public class Matrix2 implements Matrix
 	{
 		return new float[] {matrix[0][i], matrix[1][i]};
 	}
+	
+	/**
+	 * Gauss's shoelace area formula. Calculates the area of a counter-clockwise winded, irregular, non-intersecting polygon. The polygon must be defined by an array of {@code float[n][2]} vertices.
+	 * @param polygon - the array that defines the polygon
+	 * @returns the area of the polygon
+	 * @since 1.0.0
+	 */
+	public float area(float[][] polygon)
+	{
+		float area = 0f;
+		int leng = polygon.length - 1;
+		for (int i=0; i<leng; i++)
+		{
+			float[] v = polygon[i];
+			float[] n = polygon[i+1];
+			float x_hand = v[0] * n[1];
+			float y_hand = n[0] * v[1];
+			area += (x_hand - y_hand);
+		}
+		return area * 0.5f;
+	}
 }

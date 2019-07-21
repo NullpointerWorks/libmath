@@ -9,6 +9,11 @@ import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 import com.nullpointerworks.math.geometry.g2d.solver.IIntersectionSolver2;
 import com.nullpointerworks.math.geometry.g2d.solver.point.PointTriangle;
 
+/**
+ * Refers to an implementation that detects if a {@code Triangle} objects is intersection a {@code Point} object.
+ * @since 1.0.0
+ * @see PointTriangle
+ */
 public class TrianglePoint implements IIntersectionSolver2 
 {
 	public static final TrianglePoint instance = new TrianglePoint();

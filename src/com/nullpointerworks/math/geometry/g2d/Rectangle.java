@@ -7,20 +7,37 @@ package com.nullpointerworks.math.geometry.g2d;
 
 import com.nullpointerworks.math.vector.Vector2;
 
+/**
+ * An extension of the {@code Geometry2D} class. Provides the functionality of an axes aligned rectangle. This implementation uses two {@code Triangle} objects internally.
+ * @since 1.0.0
+ * @see Triangle
+ */
 public class Rectangle extends Geometry2D
 {
+	private final Vector2 V2 = new Vector2();
 	public Triangle t1,t2;
 	public float x=0,y=0,w=0,h=0;
 	
+	/**
+	 * Creates an empty rectangle at the location {@code (0,0)} and has no width or height.
+	 * @since 1.0.0
+	 */
 	public Rectangle() {}
 	
+	/**
+	 * Creates a rectangle at the location {@code (x,y)} with a given width and height.
+	 * @param x - location on the x axes
+	 * @param y - location on the y axes
+	 * @param w - width of the rectangle
+	 * @param h - height of the rectangle
+	 * @since 1.0.0
+	 */
 	public Rectangle(float x, float y, float w, float h)
 	{
 		this.x=x;
 		this.y=y;
 		this.w=w;
 		this.h=h;
-
 		recalculate();
 	}
 
@@ -51,7 +68,7 @@ public class Rectangle extends Geometry2D
 	}
 	
 	@Override
-	public void offset(float x, float y)
+	public void translate(float x, float y)
 	{
 		this.x += x;
 		this.y += y;
@@ -69,10 +86,6 @@ public class Rectangle extends Geometry2D
 	{
 		return this;
 	}
-	
-	// ==========================================
-	
-	private final Vector2 V2 = new Vector2();
 	
 	private void recalculate()
 	{

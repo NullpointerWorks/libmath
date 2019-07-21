@@ -78,9 +78,9 @@ public class FloatMath
 	}
 	
 	/**
-	 * Returns the fractional component of the given number. 
+	 * Returns the fractional component of a floating-point number. 
 	 * @param x - input value
-	 * @return the fractional component of the given number
+	 * @return the fractional component of a floating-point number
 	 * @since 1.0.0
 	 */
 	public static float fraction(float x)

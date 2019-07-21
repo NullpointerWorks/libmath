@@ -7,6 +7,18 @@ package com.nullpointerworks.math.geometry.logic;
 
 import com.nullpointerworks.math.geometry.g2d.Geometry2D;
 
+/**
+ * Logical AND geometry group. Testing a location on this group will return {@code true} if all geometries return true on the {@code isInside(float,float)} test. <br>
+ * <br>
+ * The logic for the test is similar to the two input logic AND gate. Returns true if, and only if, all inputs are true.
+ * <pre>
+ *    | 0  1
+ *  --+------
+ *  0 | 0  0
+ *    |
+ *  1 | 0  1</pre>
+ * @since 1.0.0
+ */
 public class LogicAnd2D extends LogicGroup2D
 {
 	@Override
