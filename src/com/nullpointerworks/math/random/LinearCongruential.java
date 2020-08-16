@@ -7,7 +7,7 @@ package com.nullpointerworks.math.random;
 
 /**
  * Linear Congruential Generator(a.k.a. LCG) is a seeded pseudo random number generator that follows a simple equation accompanied with a few magic numbers. There are various recipes available that produce varying results. Some produce very little randomization before repeating the series, others can produce millions of seemingly random numbers before any pattern appears.<br><br>
- * The general equation for a LGC is:
+ * The general equation for a LCG is:
  * <pre>x(i+1) = (a * x(i) + b) % m</pre>
  * where,
  * <pre>
