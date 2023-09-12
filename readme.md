@@ -1,5 +1,3 @@
-<a target="_blank" href="https://unlicense.org"><img src="https://unlicense.org/pd-icon.png" alt="Unlicense" width="40"/> Unlicense</a>
-
 # libmath
 Provides various mathematical utilities like matrix, vector and complex/quaternion operations. Also has 2d geometry logic and randomization. 
 
